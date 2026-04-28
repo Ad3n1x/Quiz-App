@@ -137,21 +137,20 @@
         flex-direction: column;
         width: 100%;
       }
-      #submitBtn{
-        width: 50%;
+
+      a{
         color: white;
         text-decoration: none;
-      }
-      #submitBtn a{
-        color: white;
-        text-decoration: none;
+         width: 50%;
       }
     </style>
   </head>
 
   <body>
     <div id="display"></div>
-    <button id="submitBtn"><a href="./index.html">Back to Quiz Selection</a></button>
+    <a href="./index.html">
+      <button id="submitBtn">Back to Quiz Selection</button>
+    </a>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
       import {

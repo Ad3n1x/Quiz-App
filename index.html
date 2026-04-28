@@ -1,86 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Selection</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Selection</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4b79a1, #283e51);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4b79a1, #283e51);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
 
-    .container {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
+      .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      }
 
-    h1 {
-      margin-bottom: 30px;
-      font-size: 32px;
-      letter-spacing: 1px;
-    }
+      h1 {
+        margin-bottom: 30px;
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
 
-    .quiz-btn {
-      display: block;
-      width: 250px;
-      margin: 15px auto;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
-      background: #1e90ff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-decoration: none;
-    }
+      .quiz-btn {
+        display: block;
+        width: 250px;
+        margin: 15px auto;
+        padding: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background: #1e90ff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        text-decoration: none;
+      }
 
-    .quiz-btn:hover {
-      background: #63b3ff;
-      transform: scale(1.05);
-    }
+      .quiz-btn:hover {
+        background: #63b3ff;
+        transform: scale(1.05);
+      }
 
-    .quiz-btn:active {
-      transform: scale(0.98);
-    }
+      .quiz-btn:active {
+        transform: scale(0.98);
+      }
 
-    a {
-      color: white;
-      text-decoration: none;
-      display: block;
-    }
-  </style>
-</head>
+      a {
+        color: white;
+        text-decoration: none;
+        display: block;
+      }
+    </style>
+  </head>
 
-<body>
-  <div class="container">
-    <h1>Select a Quiz</h1>
+  <body>
+    <div class="container">
+      <h1>Select a Quiz</h1>
+      <a href="./mathquiz.html">
+        <button class="quiz-btn">Math Quiz</button>
+      </a>
+      <a href="phyquiz.html">
+        <button class="quiz-btn">Physics Quiz</button>
+      </a>
 
-    <button class="quiz-btn">
-      <a href="./mathquiz.html">Math Quiz</a>
-    </button>
-
-    <button class="quiz-btn">
-      <a href="phyquiz.html">Physics Quiz</a>
-    </button>
-
-    <button class="quiz-btn">
-      <a href="chemquiz.html">Chemistry Quiz</a>
-    </button>
-  </div>
-</body>
+      <a href="chemquiz.html">
+        <button class="quiz-btn">Chemistry Quiz</button>
+      </a>
+    </div>
+  </body>
 </html>
