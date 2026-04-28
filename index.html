@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #ff8c00, #ff3d00);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      #display {
+        width: 90%;
+        max-width: 650px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 40px;
+        color: #fff;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        animation: fadeIn 0.8s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        cursor: pointer;
+        padding: 15px;
+        margin: 12px 0;
+        border-radius: 12px;
+        font-size: 18px;
+        background: rgba(255, 255, 255, 0.25);
+        border: 2px solid transparent;
+        transition: 0.3s ease;
+      }
+
+      li:hover {
+        transform: scale(1.03);
+        background: rgba(255, 255, 255, 0.35);
+      }
+
+      .selected {
+        background: #2196f3;
+        border-color: #2196f3;
+      }
+      .correct {
+        background: #4caf50;
+        border-color: #4caf50;
+      }
+      .wrong {
+        background: #e53935;
+        border-color: #e53935;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-weight: 600;
+        margin-top: 20px;
+      }
+
+      #submitBtn {
+        width: 100%;
+        background: #0033cc;
+        color: white;
+      }
+      #submitBtn:hover {
+        background: #001a66;
+      }
+
+      #nextBtn {
+        width: 100%;
+        background: #00c853;
+        color: white;
+        display: none;
+      }
+      #nextBtn:hover {
+        background: #009624;
+      }
+
+      #prevBtn {
+        width: 100%;
+        background: #ffca28;
+        color: black;
+        display: none;
+      }
+      #prevBtn:hover {
+        background: #ffb300;
+      }
+
+      .difficulty-btn {
+        width: 100%;
+        margin-top: 10px;
+        background: #0033cc;
+        color: #fff;
+      }
+      .difficulty-btn:hover {
+        background: #001a66;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="display"></div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCbeI2bHtrcX4f8UzWoUBiyfN32ADNx8rw",
+        authDomain: "quiz-app-38f6c.firebaseapp.com",
+        projectId: "quiz-app-38f6c",
+        storageBucket: "quiz-app-38f6c.appspot.com",
+        messagingSenderId: "481790359196",
+        appId: "1:481790359196:web:5d61ebf6f8bc754d0a9f59",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      let questions = [];
+      let currentIndex = 0;
+      let selectedOption = null;
+      let score = 0;
+      let answered = false;
+
+      let difficulty = null;
+      let timerDuration = 0; // in seconds
+      let timeLeft = 0;
+      let timerId = null;
+
+      const clean = (t) => t.replace(/\s+/g, " ").trim();
+
+      function showDifficultyScreen() {
+        const display = document.getElementById("display");
+        display.innerHTML = `
+          <h1>Math Quiz</h1>
+          <p>Select difficulty level:</p>
+          <button class="difficulty-btn" id="easyBtn">Easy (1 hour)</button>
+          <button class="difficulty-btn" id="mediumBtn">Medium (30 minutes)</button>
+          <button class="difficulty-btn" id="hardBtn">Hard (15 minutes)</button>
+        `;
+
+        document.getElementById("easyBtn").onclick = () =>
+          startQuizWithDifficulty("easy");
+        document.getElementById("mediumBtn").onclick = () =>
+          startQuizWithDifficulty("medium");
+        document.getElementById("hardBtn").onclick = () =>
+          startQuizWithDifficulty("hard");
+      }
+
+      function setTimerForDifficulty() {
+        if (difficulty === "easy") {
+          timerDuration = 60 * 60; // 1 hour
+        } else if (difficulty === "medium") {
+          timerDuration = 30 * 60; // 30 minutes
+        } else if (difficulty === "hard") {
+          timerDuration = 15 * 60; // 15 minutes
+        }
+        timeLeft = timerDuration;
+      }
+
+      function formatTime(seconds) {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+
+        if (h > 0) {
+          return (
+            String(h).padStart(2, "0") +
+            ":" +
+            String(m).padStart(2, "0") +
+            ":" +
+            String(s).padStart(2, "0")
+          );
+        } else {
+          return (
+            String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0")
+          );
+        }
+      }
+
+      function updateTimerDisplay() {
+        const timerEl = document.getElementById("timer");
+        if (timerEl) {
+          timerEl.innerText = "Time left: " + formatTime(timeLeft);
+        }
+      }
+
+      function startTimer() {
+        clearInterval(timerId);
+        updateTimerDisplay();
+        timerId = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+          if (timeLeft <= 0) {
+            clearInterval(timerId);
+            endQuiz(true);
+          }
+        }, 1000);
+      }
+
+      async function startQuizWithDifficulty(level) {
+        difficulty = level;
+        setTimerForDifficulty();
+        questions = [];
+        currentIndex = 0;
+        selectedOption = null;
+        score = 0;
+        answered = false;
+
+        await loadQuestionsForDifficulty();
+        if (questions.length === 0) {
+          const display = document.getElementById("display");
+          display.innerHTML = `
+            <h1>No questions found</h1>
+            <p>There are no questions for this difficulty yet.</p>
+            <button onclick="location.reload()">Reload</button>
+          `;
+          return;
+        }
+        startTimer();
+        renderQuestion();
+      }
+
+      async function loadQuestionsForDifficulty() {
+        let collectionName = "";
+        if (difficulty === "easy") collectionName = "mathQuestions";
+        if (difficulty === "medium") collectionName = "mediumQuestions";
+        if (difficulty === "hard") collectionName = "hardQuestions";
+
+        const colRef = collection(db, collectionName);
+        const querySnapshot = await getDocs(colRef);
+
+        questions = [];
+        querySnapshot.docs.forEach((doc) => {
+          const data = doc.data();
+          if (
+            !data.Question ||
+            !data.option1 ||
+            !data.option2 ||
+            !data.option3 ||
+            !data.option4 ||
+            !data.solution
+          ) {
+            console.error("Invalid question:", doc.id, data);
+            return;
+          }
+          questions.push({ id: doc.id, ...data });
+        });
+
+        // Randomize questions
+        questions.sort(() => Math.random() - 0.5);
+      }
+
+      function getHighScoreKey() {
+        return "highScore_" + difficulty;
+      }
+
+      function getHighScore() {
+        const key = getHighScoreKey();
+        const stored = localStorage.getItem(key);
+        return stored ? Number(stored) : 0;
+      }
+
+      function setHighScore(newScore) {
+        const key = getHighScoreKey();
+        localStorage.setItem(key, String(newScore));
+      }
+
+      function renderQuestion() {
+        const q = questions[currentIndex];
+        const display = document.getElementById("display");
+
+        answered = false;
+
+        const highScore = getHighScore();
+
+        display.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <h3>Question: ${currentIndex + 1} / ${questions.length}</h3>
+            <h3>Score: ${score}</h3>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <h4>Difficulty: ${difficulty.toUpperCase()}</h4>
+            <h4>High Score: ${highScore}</h4>
+            <h4 id="timer"></h4>
+          </div>
+
+          <h1>${q.Question}</h1>
+          <p>Select the correct answer:</p>
+
+          <ul id="options">
+            <li>${q.option1}</li>
+            <li>${q.option2}</li>
+            <li>${q.option3}</li>
+            <li>${q.option4}</li>
+          </ul>
+
+          <button id="submitBtn">Submit</button>
+          <button id="nextBtn">Next Question</button>
+          <button id="prevBtn">Previous Question</button>
+        `;
+
+        updateTimerDisplay();
+
+        document.querySelectorAll("#options li").forEach((li) => {
+          li.addEventListener("click", () => {
+            if (!answered) selectOption(li);
+          });
+        });
+
+        document.getElementById("submitBtn").onclick = () =>
+          checkAnswer(q.solution);
+        document.getElementById("nextBtn").onclick = nextQuestion;
+        document.getElementById("prevBtn").onclick = prevQuestion;
+
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("prevBtn").style.display =
+          currentIndex === 0 ? "none" : "block";
+      }
+
+      function selectOption(li) {
+        selectedOption = li;
+        document
+          .querySelectorAll("#options li")
+          .forEach((opt) => (opt.className = ""));
+        li.className = "selected";
+      }
+
+      function checkAnswer(correctAnswer) {
+        if (!selectedOption) return alert("Please select an answer first");
+
+        answered = true;
+
+        const chosen = clean(selectedOption.innerText);
+        const correct = clean(correctAnswer);
+
+        const allOptions = document.querySelectorAll("#options li");
+
+        if (chosen === correct) {
+          selectedOption.className = "correct";
+          score++;
+        } else {
+          selectedOption.className = "wrong";
+
+          // Show the correct answer
+          allOptions.forEach((opt) => {
+            if (clean(opt.innerText) === correct) {
+              opt.classList.add("correct");
+            }
+          });
+        }
+
+        // Disable all options
+        allOptions.forEach((opt) => (opt.style.pointerEvents = "none"));
+
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("nextBtn").style.display = "block";
+      }
+
+      function nextQuestion() {
+        currentIndex++;
+
+        if (currentIndex >= questions.length) {
+          endQuiz(false);
+          return;
+        }
+
+        selectedOption = null;
+        renderQuestion();
+      }
+
+      function prevQuestion() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          selectedOption = null;
+          renderQuestion();
+        }
+      }
+
+      function endQuiz(timeUp = false) {
+        clearInterval(timerId);
+
+        const highScore = getHighScore();
+        let newHighScore = highScore;
+
+        if (score > highScore) {
+          setHighScore(score);
+          newHighScore = score;
+        }
+
+        const display = document.getElementById("display");
+        display.innerHTML = `
+          <h1>Quiz Completed!</h1>
+          ${
+            timeUp
+              ? "<h3 style='color:#ffeb3b;'>Time is up!</h3>"
+              : "<h3>Well done!</h3>"
+          }
+          <h2>Your Score: ${score} / ${questions.length}</h2>
+          <h2>High Score (${difficulty.toUpperCase()}): ${newHighScore}</h2>
+          <button onclick="location.reload()">Restart / Change Difficulty</button>
+        `;
+      }
+
+      // Start with difficulty selection
+      showDifficultyScreen();
+    </script>
+  </body>
+</html>
