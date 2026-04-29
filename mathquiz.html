@@ -144,7 +144,7 @@
         text-decoration: none;
         width: 50%;
       }
-      #display{
+      #display {
         margin: 40px;
       }
     </style>
@@ -155,6 +155,9 @@
     <a href="./math.html">
       <button id="submitBtn">Back to Difficulty Selection</button>
     </a>
+    <a href="index.html"
+      ><button id="submitBtn">Back To Quiz Selection</button></a
+    >
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
       import {
@@ -188,8 +191,6 @@
 
       const clean = (t) => t.replace(/\s+/g, " ").trim();
 
-
-
       function setTimerForDifficulty() {
         timerDuration = 60 * 60; // Fixed 1 hour for easy
         timeLeft = timerDuration;
@@ -208,7 +209,7 @@
         const s = seconds % 60;
         return format(h, m, s);
       }
-      
+
       function updateTimerDisplay() {
         const timerEl = document.getElementById("timer");
         if (timerEl) {
@@ -229,7 +230,7 @@
         }, 1000);
       }
 
-// startQuizWithDifficulty no longer needed for easy-only mode
+      // startQuizWithDifficulty no longer needed for easy-only mode
 
       async function loadQuestionsForDifficulty() {
         const colRef = collection(db, "mathQuestions"); // Only easy questions
