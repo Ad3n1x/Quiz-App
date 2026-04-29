@@ -129,7 +129,7 @@
       .difficulty-btn:hover {
         background: #001a66;
       }
-      body{
+      body {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -138,10 +138,10 @@
         width: 100%;
       }
 
-      a{
+      a {
         color: white;
         text-decoration: none;
-         width: 50%;
+        width: 50%;
       }
     </style>
   </head>
@@ -177,39 +177,17 @@
       let score = 0;
       let answered = false;
 
-      let difficulty = null;
+      const difficulty = "easy";
       let timerDuration = 0; // in seconds
       let timeLeft = 0;
       let timerId = null;
 
       const clean = (t) => t.replace(/\s+/g, " ").trim();
 
-      function showDifficultyScreen() {
-        const display = document.getElementById("display");
-        display.innerHTML = `
-          <h1>Math Quiz</h1>
-          <p>Select difficulty level:</p>
-          <button class="difficulty-btn" id="easyBtn">Easy (1 hour)</button>
-          <button class="difficulty-btn" id="mediumBtn">Medium (30 minutes)</button>
-          <button class="difficulty-btn" id="hardBtn">Hard (15 minutes)</button>
-        `;
 
-        document.getElementById("easyBtn").onclick = () =>
-          startQuizWithDifficulty("easy");
-        document.getElementById("mediumBtn").onclick = () =>
-          startQuizWithDifficulty("medium");
-        document.getElementById("hardBtn").onclick = () =>
-          startQuizWithDifficulty("hard");
-      }
 
       function setTimerForDifficulty() {
-        if (difficulty === "easy") {
-          timerDuration = 60 * 60; // 1 hour
-        } else if (difficulty === "medium") {
-          timerDuration = 30 * 60; // 30 minutes
-        } else if (difficulty === "hard") {
-          timerDuration = 15 * 60; // 15 minutes
-        }
+        timerDuration = 60 * 60; // Fixed 1 hour for easy
         timeLeft = timerDuration;
       }
 
@@ -227,9 +205,7 @@
             String(s).padStart(2, "0")
           );
         } else {
-          return (
-            String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0")
-          );
+          return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
         }
       }
 
@@ -253,36 +229,10 @@
         }, 1000);
       }
 
-      async function startQuizWithDifficulty(level) {
-        difficulty = level;
-        setTimerForDifficulty();
-        questions = [];
-        currentIndex = 0;
-        selectedOption = null;
-        score = 0;
-        answered = false;
-
-        await loadQuestionsForDifficulty();
-        if (questions.length === 0) {
-          const display = document.getElementById("display");
-          display.innerHTML = `
-            <h1>No questions found</h1>
-            <p>There are no questions for this difficulty yet.</p>
-            <button onclick="location.reload()">Reload</button>
-          `;
-          return;
-        }
-        startTimer();
-        renderQuestion();
-      }
+// startQuizWithDifficulty no longer needed for easy-only mode
 
       async function loadQuestionsForDifficulty() {
-        let collectionName = "";
-        if (difficulty === "easy") collectionName = "mathQuestions";
-        if (difficulty === "medium") collectionName = "mediumQuestions";
-        if (difficulty === "hard") collectionName = "hardQuestions";
-
-        const colRef = collection(db, collectionName);
+        const colRef = collection(db, "mathQuestions"); // Only easy questions
         const querySnapshot = await getDocs(colRef);
 
         questions = [];
@@ -307,7 +257,7 @@
       }
 
       function getHighScoreKey() {
-        return "highScore_" + difficulty;
+        return "highScore_easy";
       }
 
       function getHighScore() {
@@ -334,8 +284,8 @@
             <h3>Question: ${currentIndex + 1} / ${questions.length}</h3>
             <h3>Score: ${score}</h3>
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <h4>Difficulty: ${difficulty.toUpperCase()}</h4>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <h4>Easy Mode</h4>
             <h4>High Score: ${highScore}</h4>
             <h4 id="timer"></h4>
           </div>
@@ -445,20 +395,38 @@
 
         const display = document.getElementById("display");
         display.innerHTML = `
-          <h1>Quiz Completed!</h1>
+          <h1>Easy Quiz Completed!</h1>
           ${
             timeUp
               ? "<h3 style='color:#ffeb3b;'>Time is up!</h3>"
               : "<h3>Well done!</h3>"
           }
           <h2>Your Score: ${score} / ${questions.length}</h2>
-          <h2>High Score (${difficulty.toUpperCase()}): ${newHighScore}</h2>
-          <button onclick="location.reload()">Restart / Change Difficulty</button>
+          <h2>High Score (EASY): ${newHighScore}</h2>
+          <button onclick="location.reload()">Restart Easy Quiz</button>
         `;
       }
 
-      // Start with difficulty selection
-      showDifficultyScreen();
+      setTimerForDifficulty();
+      try {
+        await loadQuestionsForDifficulty();
+        if (questions.length === 0) {
+          const display = document.getElementById("display");
+          display.innerHTML = `
+            <h1>No easy questions found</h1>
+            <p>Please add mathQuestions to Firebase.</p>
+          `;
+        }
+        startTimer();
+        renderQuestion();
+      } catch (error) {
+        console.error("Failed to load questions:", error);
+        document.getElementById("display").innerHTML = `
+          <h1>Error loading quiz</h1>
+          <p>${error.message}</p>
+          <button onclick="location.reload()">Reload</button>
+        `;
+      }
     </script>
   </body>
 </html>
