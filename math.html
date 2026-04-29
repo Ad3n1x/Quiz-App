@@ -3,25 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Math Quiz</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: #f2f2f2;
+      }
+
+      .container {
+        text-align: center;
+        background: blue;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        margin-bottom: 10px;
+      }
+
+      .difficulty-btn {
+        display: block;
+        width: 200px;
+        margin: 10px auto;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: white;
+        color: blue;
+        transition: 0.2s;
+      }
+
+      .difficulty-btn:hover {
+        background: #0056b3;
+        color: white;
+      }
+      a{
+        text-decoration: none;
+      }
+      body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+      }
+      .difficulty-btn1{
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: blue;
+        color:white;
+        transition: 0.2s;
+      }
+    </style>
   </head>
+
   <body>
-    <div>
+    <div class="container">
       <h1>Math Quiz</h1>
       <p>Select difficulty level:</p>
+
       <a href="./mathquiz.html">
-        <button class="difficulty-btn" id="easyBtn">Easy (1 hour)</button></a
-      >
+        <button class="difficulty-btn">Easy (1 hour)</button>
+      </a>
+
       <a href="./mathnorm.html">
-        <button class="difficulty-btn" id="mediumBtn">
-          Medium (30 minutes)
-        </button></a
-      >
+        <button class="difficulty-btn">Medium (30 minutes)</button>
+      </a>
+
       <a href="./mathhard.html">
-        <button class="difficulty-btn" id="hardBtn">
-          Hard (15 minutes)
-        </button></a
-      >
+        <button class="difficulty-btn">Hard (15 minutes)</button>
+      </a>
     </div>
+    <a href="index.html"><button class="difficulty-btn1">Back To Quiz Selection</button></a>
   </body>
 </html>

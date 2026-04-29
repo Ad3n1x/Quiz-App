@@ -18,8 +18,8 @@
       }
 
       #display {
-        width: 60%;
-        max-width: 100vw;
+        width: 90%;
+        max-width: 650px;
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(15px);
         border-radius: 25px;
@@ -136,16 +136,12 @@
         flex-wrap: wrap;
         flex-direction: column;
         width: 100%;
-        padding-bottom: 40px;
       }
 
       a {
         color: white;
         text-decoration: none;
         width: 50%;
-      }
-      #display{
-        margin: 40px;
       }
     </style>
   </head>
@@ -181,36 +177,30 @@
       let score = 0;
       let answered = false;
 
-      const difficulty = "easy";
+      const difficulty = "normal";
       let timerDuration = 0; // in seconds
       let timeLeft = 0;
       let timerId = null;
 
       const clean = (t) => t.replace(/\s+/g, " ").trim();
 
-
-
       function setTimerForDifficulty() {
-        timerDuration = 60 * 60; // Fixed 1 hour for easy
+        timerDuration = 60 * 120; // Fixed 1 hour for easy
         timeLeft = timerDuration;
       }
 
       function formatTime(seconds) {
+        const format = (h, m, s) => {
+          const hh = String(h).padStart(2, "0");
+          const mm = String(m).padStart(2, "0");
+          const ss = String(s).padStart(2, "0");
+
+          return h > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
+        };
         const h = Math.floor(seconds / 3600);
         const m = Math.floor((seconds % 3600) / 60);
         const s = seconds % 60;
-
-        if (h > 0) {
-          return (
-            String(h).padStart(2, "0") +
-            ":" +
-            String(m).padStart(2, "0") +
-            ":" +
-            String(s).padStart(2, "0")
-          );
-        } else {
-          return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
-        }
+        return format(h, m, s);
       }
 
       function updateTimerDisplay() {
@@ -233,13 +223,13 @@
         }, 1000);
       }
 
-// startQuizWithDifficulty no longer needed for easy-only mode
+      // startQuizWithDifficulty no longer needed for easy-only mode
 
       async function loadQuestionsForDifficulty() {
-        const colRef = collection(db, "mathQuestions"); // Only easy questions
+        const colRef = collection(db, "mathhardquestion"); // Only hard questions
         const querySnapshot = await getDocs(colRef);
 
-        questions = [];
+        questions = []
         querySnapshot.docs.forEach((doc) => {
           const data = doc.data();
           if (
@@ -248,7 +238,7 @@
             !data.option2 ||
             !data.option3 ||
             !data.option4 ||
-            !data.solution
+            !data.solution 
           ) {
             console.error("Invalid question:", doc.id, data);
             return;
@@ -289,7 +279,7 @@
             <h3>Score: ${score}</h3>
           </div>
         <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <h4>Easy Mode</h4>
+            <h4>Hard Mode</h4>
             <h4>High Score: ${highScore}</h4>
             <h4 id="timer"></h4>
           </div>
