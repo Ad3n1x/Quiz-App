@@ -392,15 +392,15 @@
 
         const display = document.getElementById("display");
         display.innerHTML = `
-          <h1>Easy Quiz Completed!</h1>
+          <h1>Hard Quiz Completed!</h1>
           ${
             timeUp
               ? "<h3 style='color:#ffeb3b;'>Time is up!</h3>"
               : "<h3>Well done!</h3>"
           }
           <h2>Your Score: ${score} / ${questions.length}</h2>
-          <h2>High Score (EASY): ${newHighScore}</h2>
-          <button onclick="location.reload()">Restart Easy Quiz</button>
+          <h2>High Score (HARD): ${newHighScore}</h2>
+          <button onclick="location.reload()">Restart Hard Quiz</button>
         `;
       }
 
