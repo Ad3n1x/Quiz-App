@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+  <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        justify-content: center;
+        align-items: center;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #4f46e5, #9333ea);
+        color: white;
+      }
+
+      .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 40px 50px;
+        border-radius: 20px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        margin-bottom: 10px;
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+      }
+
+      p {
+        margin-bottom: 25px;
+        font-size: 1.1rem;
+      }
+
+      .difficulty-btn {
+        display: block;
+        width: 250px;
+        margin: 12px auto;
+        padding: 14px;
+        font-size: 17px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: white;
+        color: #4f46e5;
+        font-weight: 600;
+        transition: 0.25s ease;
+      }
+
+      .difficulty-btn:hover {
+        transform: scale(1.05);
+        background: #4f46e5;
+        color: white;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+<body>
+ <div class="container">
+      <h1>Chemistry Quiz</h1>
+      <p>Select difficulty level:</p>
+
+      <a href="./chemeasy.html">
+        <button class="difficulty-btn">Easy</button>
+      </a>
+
+      <a href="./chemnorm.html">
+        <button class="difficulty-btn">Medium</button>
+      </a>
+
+      <a href="./chemhard.html">
+        <button class="difficulty-btn">Hard</button>
+      </a>
+    </div>
+    <a href="index.html"><button class="difficulty-btn">Back To Quiz Selection</button></a>
+       
+</body>
+       
+</html>
