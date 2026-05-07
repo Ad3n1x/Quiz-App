@@ -1,0 +1,248 @@
+<body>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #dfe9f3, #ffffff);
+        font-family: "Segoe UI", sans-serif;
+        padding-bottom: 60px;
+    }
+
+    /* Main Card */
+    #addQuiz {
+        max-width: 850px;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        margin-top: 70px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        animation: fadeIn 0.6s ease-in-out;
+        border: 1px solid #e6ecf5;
+    }
+
+    /* Title */
+    h2 {
+        text-align: center;
+        font-weight: 900;
+        margin-bottom: 35px;
+        color: #0d6efd;
+        letter-spacing: 1px;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* Question Block */
+    .question-block {
+        background: #f9fbff;
+        border: 1px solid #d7e3fc !important;
+        border-radius: 15px !important;
+        padding: 25px !important;
+        transition: 0.25s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .question-block:hover {
+        background: #f1f6ff;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .question-block h5 {
+        font-weight: 800;
+        color: #0d6efd;
+        margin-bottom: 18px;
+    }
+
+    /* Inputs */
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+        border: 1px solid #cfd9ea;
+        transition: 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 8px rgba(13,110,253,0.25);
+    }
+
+    /* Add Question Button */
+    #addQuestionBtn {
+        width: 100%;
+        padding: 14px;
+        font-size: 17px;
+        border-radius: 12px;
+        font-weight: 700;
+        background: #198754;
+        border: none;
+        transition: 0.25s;
+    }
+
+    #addQuestionBtn:hover {
+        background: #146c43;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Submit & Back Buttons */
+    .btn-custom {
+        width: 48%;
+        padding: 14px;
+        font-size: 17px;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: 0.25s;
+    }
+
+    .btn-submit {
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+    }
+
+    .btn-submit:hover {
+        background-color: #084298;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-back {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+
+    .btn-back:hover {
+        background-color: #565e64;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Fade Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(25px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+    <form class="container" id="addQuiz">
+        <h2>Create New Quiz</h2>
+
+        <div id="questionContainer"></div>
+
+        <button type="button" class="btn btn-success mb-3" id="addQuestionBtn">+ Add Question</button>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Deadline (optional)</label>
+            <input type="datetime-local" class="form-control" id="deadline">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">One-time Use?</label>
+            <select class="form-control" id="oneTime">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-custom btn-submit">Submit Quiz</button>
+            <button type="button" class="btn btn-custom btn-back" onclick="window.location.href='index.html'">Go Back</button>
+        </div>
+    </form>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbeI2bHtrcX4f8UzWoUBiyfN32ADNx8rw",
+            authDomain: "quiz-app-38f6c.firebaseapp.com",
+            projectId: "quiz-app-38f6c",
+            storageBucket: "quiz-app-38f6c.firebasestorage.app",
+            messagingSenderId: "481790359196",
+            appId: "1:481790359196:web:5d61ebf6f8bc754d0a9f59"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const quizCollection = collection(db, "quizzes");
+
+        const addQuiz = document.getElementById("addQuiz");
+        const questionContainer = document.getElementById("questionContainer");
+        const addQuestionBtn = document.getElementById("addQuestionBtn");
+
+        let questionCount = 0;
+
+        function addQuestion() {
+            questionCount++;
+
+            const qHTML = `
+                <div class="question-block p-3 mb-3 border rounded">
+                    <h5>Question ${questionCount}</h5>
+
+                    <input type="text" class="form-control mb-2 q-text" placeholder="Enter question" required>
+
+                    <input type="text" class="form-control mb-2 opt1" placeholder="Option 1" required>
+                    <input type="text" class="form-control mb-2 opt2" placeholder="Option 2" required>
+                    <input type="text" class="form-control mb-2 opt3" placeholder="Option 3" required>
+                    <input type="text" class="form-control mb-2 opt4" placeholder="Option 4" required>
+
+                    <input type="text" class="form-control mb-2 sol" placeholder="Correct Option Number (1-4)" required>
+                </div>
+            `;
+
+            questionContainer.insertAdjacentHTML("beforeend", qHTML);
+        }
+
+        addQuestionBtn.addEventListener("click", addQuestion);
+
+        addQuestion();
+
+        function generateToken() {
+            return "QZ-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        addQuiz.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const questions = [];
+            const blocks = document.querySelectorAll(".question-block");
+
+            blocks.forEach(block => {
+                questions.push({
+                    question: block.querySelector(".q-text").value,
+                    options: [
+                        block.querySelector(".opt1").value,
+                        block.querySelector(".opt2").value,
+                        block.querySelector(".opt3").value,
+                        block.querySelector(".opt4").value
+                    ],
+                    solution: block.querySelector(".sol").value
+                });
+            });
+
+            const token = generateToken();
+
+            const quizData = {
+                token: token,
+                createdAt: new Date(),
+                deadline: document.getElementById("deadline").value || null,
+                oneTime: document.getElementById("oneTime").value === "true",
+                questions: questions
+            };
+
+            try {
+                await addDoc(quizCollection, quizData);
+                alert("Quiz created! Your token is: " + token);
+                addQuiz.reset();
+                questionContainer.innerHTML = "";
+                questionCount = 0;
+                addQuestion();
+            } catch (error) {
+                console.error("Error adding quiz:", error);
+                alert("Failed to create quiz");
+            }
+        });
+    </script>
+
+</body>
