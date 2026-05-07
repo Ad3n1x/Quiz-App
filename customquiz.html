@@ -129,7 +129,7 @@
         <div id="questionContainer"></div>
 
         <button type="button" class="btn btn-success mb-3" id="addQuestionBtn">+ Add Question</button>
-
+         <button type="button" class="btn btn-success mb-3" id="removeQuestionBtn">- Remove Question</button>
         <div class="mb-3">
             <label class="form-label fw-bold">Deadline (optional)</label>
             <input type="datetime-local" class="form-control" id="deadline">
@@ -170,7 +170,7 @@
         const addQuiz = document.getElementById("addQuiz");
         const questionContainer = document.getElementById("questionContainer");
         const addQuestionBtn = document.getElementById("addQuestionBtn");
-
+        const removeQuestionBtn = document.getElementById("removeQuestionBtn");
         let questionCount = 0;
 
         function addQuestion() {
@@ -195,6 +195,15 @@
         }
 
         addQuestionBtn.addEventListener("click", addQuestion);
+        removeQuestionBtn.addEventListener("click", () => {
+            if (questionCount > 1) {
+                const lastQuestion = questionContainer.lastElementChild;
+                if (lastQuestion) {
+                    questionContainer.removeChild(lastQuestion);
+                    questionCount--;
+                }
+            }
+        });
 
         addQuestion();
 
