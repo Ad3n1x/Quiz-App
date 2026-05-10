@@ -2,297 +2,309 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #ff8c00, #ff3d00);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #ff8c00, #ff3d00);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
 
-      #display {
-        width: 60%;
-        max-width: 100vw;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(15px);
-        border-radius: 25px;
-        padding: 40px;
-        color: #fff;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-        animation: fadeIn 0.8s ease;
-      }
+  #display {
+    width: 60%;
+    max-width: 100vw;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 40px;
+    color: #fff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.8s ease;
+  }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
 
-      h1 {
-        font-size: 28px;
-        margin-bottom: 20px;
-        text-align: center;
-      }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-      ul {
-        list-style: none;
-        padding: 0;
-      }
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 
-      li {
-        cursor: pointer;
-        padding: 15px;
-        margin: 12px 0;
-        border-radius: 12px;
-        font-size: 18px;
-        background: rgba(255, 255, 255, 0.25);
-        border: 2px solid transparent;
-        transition: 0.3s ease;
-      }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
 
-      li:hover {
-        transform: scale(1.03);
-        background: rgba(255, 255, 255, 0.35);
-      }
+  li {
+    cursor: pointer;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 12px;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+  }
 
-      .selected {
-        background: #2196f3;
-        border-color: #2196f3;
-      }
-      .correct {
-        background: #4caf50;
-        border-color: #4caf50;
-      }
-      .wrong {
-        background: #e53935;
-        border-color: #e53935;
-      }
+  li:hover {
+    transform: scale(1.03);
+    background: rgba(255, 255, 255, 0.35);
+  }
 
-      button {
-        padding: 15px;
-        font-size: 18px;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: 0.3s ease;
-        font-weight: 600;
-        margin-top: 20px;
-      }
+  .selected {
+    background: #2196f3;
+    border-color: #2196f3;
+  }
 
-      #submitBtn {
-        width: 100%;
-        background: #0033cc;
-        color: white;
-      }
-      #submitBtn:hover {
-        background: #001a66;
-      }
+  .correct {
+    background: #4caf50;
+    border-color: #4caf50;
+  }
 
-      #nextBtn {
-        width: 100%;
-        background: #00c853;
-        color: white;
-        display: none;
-      }
-      #nextBtn:hover {
-        background: #009624;
-      }
+  .wrong {
+    background: #e53935;
+    border-color: #e53935;
+  }
 
-      #prevBtn {
-        width: 100%;
-        background: #ffca28;
-        color: black;
-        display: none;
-      }
-      #prevBtn:hover {
-        background: #ffb300;
-      }
+  button {
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 600;
+    margin-top: 20px;
+  }
 
-      .difficulty-btn {
-        width: 100%;
-        margin-top: 10px;
-        background: #0033cc;
-        color: #fff;
-      }
-      .difficulty-btn:hover {
-        background: #001a66;
-      }
-      body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex-direction: column;
-        width: 100%;
-        padding-bottom: 40px;
-      }
+  #submitBtn {
+    width: 100%;
+    background: #0033cc;
+    color: white;
+  }
 
-      a {
-        color: white;
-        text-decoration: none;
-        width: 50%;
-      }
-      #display {
-        margin: 40px;
-      }
-    </style>
+  #submitBtn:hover {
+    background: #001a66;
+  }
+
+  #nextBtn {
+    width: 100%;
+    background: #00c853;
+    color: white;
+    display: none;
+  }
+
+  #nextBtn:hover {
+    background: #009624;
+  }
+
+  #prevBtn {
+    width: 100%;
+    background: #ffca28;
+    color: black;
+    display: none;
+  }
+
+  #prevBtn:hover {
+    background: #ffb300;
+  }
+
+  .difficulty-btn {
+    width: 100%;
+    margin-top: 10px;
+    background: #0033cc;
+    color: #fff;
+  }
+
+  .difficulty-btn:hover {
+    background: #001a66;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 40px;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    width: 50%;
+  }
+
+  #display {
+    margin: 40px;
+  }
+</style>
+
 <body>
-    <div id="display">
+  <div id="display">
 
-    </div>
-     <a href="./chemquiz.html">
-      <button id="submitBtn">Back to Difficulty Selection</button>
-    </a>
-    <a href="index.html"
-      ><button id="submitBtn">Back To Quiz Selection</button></a
-    >
+  </div>
+  <a href="./chemquiz.html">
+    <button id="submitBtn">Back to Difficulty Selection</button>
+  </a>
+  <a href="index.html"><button id="submitBtn">Back To Quiz Selection</button></a>
 </body>
 <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCbeI2bHtrcX4f8UzWoUBiyfN32ADNx8rw",
-        authDomain: "quiz-app-38f6c.firebaseapp.com",
-        projectId: "quiz-app-38f6c",
-        storageBucket: "quiz-app-38f6c.firebasestorage.app",
-        messagingSenderId: "481790359196",
-        appId: "1:481790359196:web:5d61ebf6f8bc754d0a9f59"
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCbeI2bHtrcX4f8UzWoUBiyfN32ADNx8rw",
+    authDomain: "quiz-app-38f6c.firebaseapp.com",
+    projectId: "quiz-app-38f6c",
+    storageBucket: "quiz-app-38f6c.firebasestorage.app",
+    messagingSenderId: "481790359196",
+    appId: "1:481790359196:web:5d61ebf6f8bc754d0a9f59"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let questions = [];
+  let currentIndex = 0;
+  let score = 0;
+  let selectedOption = null;
+  let answered = false;
+
+  let timerDuration = 0;
+  let timeLeft = 0;
+  let timerId = null;
+
+  function setTimerForDifficulty() {
+    timerDuration = 60 * 30; // 30 minutes in seconds
+    timeLeft = timerDuration;
+  }
+  function selectOption(li) {
+    document.querySelectorAll("#options li").forEach((option) => {
+      option.style.backgroundColor = "";
+    });
+    li.style.backgroundColor = "#b3e5fc";
+    selectedOption = li.textContent;
+  }
+  function checkAnswer(solution) {
+    if (answered) {
+      alert("You have already answered this question.");
+      return;
+    }
+    if (!selectedOption) {
+      alert("Please select an option first.");
+      return;
+    }
+    answered = true;
+
+    if (selectedOption === solution) {
+      score++;
+      alert("Correct!");
+    } else {
+      alert(`Wrong! The correct answer is: ${solution}`);
+    }
+
+    document.getElementById("nextBtn").style.display = "block";
+  }
+  function formatTime(seconds) {
+    const format = (h, m, s) => {
+      const hh = String(h).padStart(2, "0");
+      const mm = String(m).padStart(2, "0");
+      const ss = String(s).padStart(2, "0");
+
+      return h > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
     };
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return format(h, m, s);
+  }
+  function updateTimerDisplay() {
+    const timerElement = document.getElementById("timer");
+    if (timerElement) {
+      timerElement.textContent = `Time Left: ${formatTime(timeLeft)}`;
+    }
+  }
+  function startTimer() {
+    timerId = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        alert("Time's up! The quiz will now end.");
+        // Optionally, you can disable further interactions here
+      }
+    }, 1000);
+  }
+  async function loadQuestionsForDifficulty() {
+    const colRef = collection(db, "chemhard"); // Only hard questions
+    const querySnapshot = await getDocs(colRef);
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    questions = [];
+    querySnapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      if (
+        !data.Question ||
+        !data.option1 ||
+        !data.option2 ||
+        !data.option3 ||
+        !data.option4 ||
+        !data.solution
+      ) {
+        console.error("Invalid question:", doc.id, data);
+        return;
+      }
+      questions.push({ id: doc.id, ...data });
+    });
 
-let questions = [];
-    let currentIndex = 0;
-    let score = 0;
-    let selectedOption = null;
-    let answered = false;
+    // Randomize questions
+    questions.sort(() => Math.random() - 0.5);
+  }
+  function setHighScore(newScore) {
+    const key = getHighScoreKey();
+    localStorage.setItem(key, String(newScore));
+  }
+  function getHighScoreKey() {
+    return "highScore_hard";
+  }
 
-    let timerDuration = 0;
-    let timeLeft = 0;
-    let timerId = null;
+  function getHighScore() {
+    const key = getHighScoreKey();
+    const stored = localStorage.getItem(key);
+    return stored ? Number(stored) : 0;
+  }
+  function renderQuestion() {
+    const display = document.getElementById("display");
+    const q = questions[currentIndex];
 
-function setTimerForDifficulty() {
-        timerDuration = 60 * 30; // 30 minutes in seconds
-        timeLeft = timerDuration;
-    }
-    function selectOption(li) {
-        document.querySelectorAll("#options li").forEach((option) => {
-            option.style.backgroundColor = "";
-        });
-        li.style.backgroundColor = "#b3e5fc";
-        selectedOption = li.textContent;
-    }
-    function checkAnswer(solution) {
-        if (answered) {
-            alert("You have already answered this question.");
-            return;
-        }
-        if (!selectedOption) {
-            alert("Please select an option first.");
-            return;
-        }
-        answered = true;
-        
-        if (selectedOption === solution) {
-            score++;
-            alert("Correct!");
-        } else {
-            alert(`Wrong! The correct answer is: ${solution}`);
-        }
-        
-        document.getElementById("nextBtn").style.display = "block";
-    }
-    function formatTime(seconds) {
-        const format = (h, m, s) => {
-            const hh = String(h).padStart(2, "0");
-            const mm = String(m).padStart(2, "0");
-            const ss = String(s).padStart(2, "0");
-
-            return h > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
-        };
-        const h = Math.floor(seconds / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = seconds % 60;
-        return format(h, m, s);
-    }
-    function updateTimerDisplay() {
-        const timerElement = document.getElementById("timer");
-        if (timerElement) {
-            timerElement.textContent = `Time Left: ${formatTime(timeLeft)}`;
-        }
-    }
-    function startTimer() {
-        timerId = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay();
-            if (timeLeft <= 0) {
-                clearInterval(timerId);
-                alert("Time's up! The quiz will now end.");
-                // Optionally, you can disable further interactions here
-            }
-        }, 1000);
-    }
-    async function loadQuestionsForDifficulty() {
-        const colRef = collection(db, "chemhard"); // Only hard questions
-        const querySnapshot = await getDocs(colRef);
-
-        questions = [];
-        querySnapshot.docs.forEach((doc) => {
-            const data = doc.data();
-            if (
-                !data.Question ||
-                !data.option1 ||
-                !data.option2 ||
-                !data.option3 ||
-                !data.option4 ||
-                !data.solution
-            ) {
-                console.error("Invalid question:", doc.id, data);
-                return;
-            }
-            questions.push({ id: doc.id, ...data });
-        });
-
-        // Randomize questions
-        questions.sort(() => Math.random() - 0.5);
-    }
-    function setHighScore(newScore) {
-        const key = getHighScoreKey();
-        localStorage.setItem(key, String(newScore));
-    }
-    function getHighScoreKey() {
-        return "highScore_hard";
-    }
-
-    function getHighScore() {
-        const key = getHighScoreKey();
-        const stored = localStorage.getItem(key);
-        return stored ? Number(stored) : 0;
-    }
-    function renderQuestion() {
-        const display = document.getElementById("display");
-        const q = questions[currentIndex];
-        display.innerHTML = `
+    answered = false;
+    selectedOption = null;
+    
+    display.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
             <h3>Question: ${currentIndex + 1} / ${questions.length}</h3>
             <h3>Score: ${score}</h3>
@@ -317,85 +329,85 @@ function setTimerForDifficulty() {
           <button id="nextBtn">${currentIndex === questions.length - 1 ? 'End Quiz' : 'Next Question'}</button>
           <button id="prevBtn">Previous Question</button>
         `;
-        updateTimerDisplay();
-        document.querySelectorAll("#options li").forEach((li) => {
-            li.addEventListener("click", () => {
-                if (!answered) selectOption(li);
-            });
-        });
+    updateTimerDisplay();
+    document.querySelectorAll("#options li").forEach((li) => {
+      li.addEventListener("click", () => {
+        if (!answered) selectOption(li);
+      });
+    });
 
-        document.getElementById("submitBtn").onclick = () =>
-            checkAnswer(q.solution);
-        document.getElementById("nextBtn").onclick = nextQuestion;
-        document.getElementById("prevBtn").onclick = prevQuestion;
+    document.getElementById("submitBtn").onclick = () =>
+      checkAnswer(q.solution);
+    document.getElementById("nextBtn").onclick = nextQuestion;
+    document.getElementById("prevBtn").onclick = prevQuestion;
 
-        document.getElementById("nextBtn").style.display = "none";
-        document.getElementById("prevBtn").style.display =
-            currentIndex === 0 ? "none" : "block";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("prevBtn").style.display =
+      currentIndex === 0 ? "none" : "block";
+  }
+  function nextQuestion() {
+    if (!answered) {
+      alert("Please submit an answer before moving to the next question.");
+      return;
     }
-    function nextQuestion() {
-        if (!answered) {
-            alert("Please submit an answer before moving to the next question.");
-            return;
-        }
-        if (currentIndex < questions.length - 1) {
-            currentIndex++;
-            renderQuestion();
-        } else {
-            endQuiz();
-        }
+    if (currentIndex < questions.length - 1) {
+      currentIndex++;
+      renderQuestion();
+    } else {
+      endQuiz();
     }
-    function prevQuestion() {
-        if (currentIndex > 0) {
-            currentIndex--
-            renderQuestion();
-        }
-        else {
-            alert("This is the first question.");
-        }
+  }
+  function prevQuestion() {
+    if (currentIndex > 0) {
+      currentIndex--
+      renderQuestion();
     }
-    function endQuiz(timeUp = false) {
-        clearInterval(timerId);
+    else {
+      alert("This is the first question.");
+    }
+  }
+  function endQuiz(timeUp = false) {
+    clearInterval(timerId);
 
-        const highScore = getHighScore();
-        let newHighScore = highScore;
+    const highScore = getHighScore();
+    let newHighScore = highScore;
 
-        if (score > highScore) {
-            setHighScore(score);
-            newHighScore = score;
-        }
-        const display = document.getElementById("display");
-        display.innerHTML = `
+    if (score > highScore) {
+      setHighScore(score);
+      newHighScore = score;
+    }
+    const display = document.getElementById("display");
+    display.innerHTML = `
           <h1>Hard Quiz Completed!</h1>
           ${timeUp
-                ? "<h3 style='color:#ffeb3b;'>Time is up!</h3>"
-                : "<h3>Well done!</h3>"
-            }
+        ? "<h3 style='color:#ffeb3b;'>Time is up!</h3>"
+        : "<h3>Well done!</h3>"
+      }
           <h2>Your Score: ${score} / ${questions.length}</h2>
           <h2>High Score (HARD): ${newHighScore}</h2>
           <button onclick="location.reload()">Restart Hard Quiz</button>
         `;
-    }
-    setTimerForDifficulty();
-    try {
-        await loadQuestionsForDifficulty();
-        if (questions.length === 0) {
-            const display = document.getElementById("display");
-            display.innerHTML = `
+  }
+  setTimerForDifficulty();
+  try {
+    await loadQuestionsForDifficulty();
+    if (questions.length === 0) {
+      const display = document.getElementById("display");
+      display.innerHTML = `
             <h1>No Hard questions found</h1>
             <p>Please add Physics Questions to Firebase.</p>
           `;
-        }
-        startTimer();
-        renderQuestion();
-    } catch (error) {
-        console.error("Failed to load questions:", error);
-        document.getElementById("display").innerHTML = `
+    }
+    startTimer();
+    renderQuestion();
+  } catch (error) {
+    console.error("Failed to load questions:", error);
+    document.getElementById("display").innerHTML = `
           <h1>Error loading quiz</h1>
           <p>${error.message}</p>
           <button onclick="location.reload()">Reload</button>
         `;
-    }
+  }
 
 
 

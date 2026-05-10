@@ -292,6 +292,9 @@ function setTimerForDifficulty() {
     function renderQuestion() {
         const display = document.getElementById("display");
         const q = questions[currentIndex];
+
+          answered = false;
+    selectedOption = null;
         display.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
             <h3>Question: ${currentIndex + 1} / ${questions.length}</h3>
