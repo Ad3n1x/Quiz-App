@@ -1,127 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="./Copilot_20260510_161806.png">
+</head>
+
 <body>
 
-<style>
-    body {
-        background: linear-gradient(135deg, #dfe9f3, #ffffff);
-        font-family: "Segoe UI", sans-serif;
-        padding-bottom: 60px;
-    }
+    <style>
+        body {
+            background: linear-gradient(135deg, #dfe9f3, #ffffff);
+            font-family: "Segoe UI", sans-serif;
+            padding-bottom: 60px;
+        }
 
-    /* Main Card */
-    #addQuiz {
-        max-width: 850px;
-        background: #ffffff;
-        padding: 40px;
-        border-radius: 20px;
-        margin-top: 70px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-        animation: fadeIn 0.6s ease-in-out;
-        border: 1px solid #e6ecf5;
-    }
+        /* Main Card */
+        #addQuiz {
+            max-width: 850px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 70px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            animation: fadeIn 0.6s ease-in-out;
+            border: 1px solid #e6ecf5;
+        }
 
-    /* Title */
-    h2 {
-        text-align: center;
-        font-weight: 900;
-        margin-bottom: 35px;
-        color: #0d6efd;
-        letter-spacing: 1px;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
+        /* Title */
+        h2 {
+            text-align: center;
+            font-weight: 900;
+            margin-bottom: 35px;
+            color: #0d6efd;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Question Block */
-    .question-block {
-        background: #f9fbff;
-        border: 1px solid #d7e3fc !important;
-        border-radius: 15px !important;
-        padding: 25px !important;
-        transition: 0.25s ease;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    }
+        /* Question Block */
+        .question-block {
+            background: #f9fbff;
+            border: 1px solid #d7e3fc !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            transition: 0.25s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
 
-    .question-block:hover {
-        background: #f1f6ff;
-        transform: translateY(-3px);
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    }
+        .question-block:hover {
+            background: #f1f6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
 
-    .question-block h5 {
-        font-weight: 800;
-        color: #0d6efd;
-        margin-bottom: 18px;
-    }
+        .question-block h5 {
+            font-weight: 800;
+            color: #0d6efd;
+            margin-bottom: 18px;
+        }
 
-    /* Inputs */
-    .form-control {
-        border-radius: 10px;
-        padding: 12px;
-        border: 1px solid #cfd9ea;
-        transition: 0.2s;
-    }
+        /* Inputs */
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #cfd9ea;
+            transition: 0.2s;
+        }
 
-    .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 8px rgba(13,110,253,0.25);
-    }
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 8px rgba(13, 110, 253, 0.25);
+        }
 
-    /* Add Question Button */
-    #addQuestionBtn, #removeQuestionBtn {
-        width: 100%;
-        padding: 14px;
-        font-size: 17px;
-        border-radius: 12px;
-        font-weight: 700;
-        background: #198754;
-        border: none;
-        transition: 0.25s;
-    }
+        /* Add Question Button */
+        #addQuestionBtn,
+        #removeQuestionBtn {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            border-radius: 12px;
+            font-weight: 700;
+            background: #198754;
+            border: none;
+            transition: 0.25s;
+        }
 
-    #addQuestionBtn , #removeQuestionBtn:hover {
-        background: #146c43;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
+        #addQuestionBtn,
+        #removeQuestionBtn:hover {
+            background: #146c43;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Submit & Back Buttons */
-    .btn-custom {
-        width: 48%;
-        padding: 14px;
-        font-size: 17px;
-        border-radius: 12px;
-        font-weight: 700;
-        transition: 0.25s;
-    }
+        /* Submit & Back Buttons */
+        .btn-custom {
+            width: 48%;
+            padding: 14px;
+            font-size: 17px;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
 
-    .btn-submit {
-        background-color: #0d6efd;
-        color: white;
-        border: none;
-    }
+        .btn-submit {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+        }
 
-    .btn-submit:hover {
-        background-color: #084298;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
+        .btn-submit:hover {
+            background-color: #084298;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .btn-back {
-        background-color: #6c757d;
-        color: white;
-        border: none;
-    }
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
 
-    .btn-back:hover {
-        background-color: #565e64;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
+        .btn-back:hover {
+            background-color: #565e64;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Fade Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(25px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+        /* Fade Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 
     <form class="container" id="addQuiz">
         <h2>Create New Quiz</h2>
@@ -145,7 +164,8 @@
 
         <div class="d-flex justify-content-between mt-4">
             <button type="submit" class="btn btn-custom btn-submit">Submit Quiz</button>
-            <button type="button" class="btn btn-custom btn-back" onclick="window.location.href='index.html'">Go Back</button>
+            <button type="button" class="btn btn-custom btn-back" onclick="window.location.href='index.html'">Go
+                Back</button>
         </div>
     </form>
 
@@ -255,3 +275,5 @@
     </script>
 
 </body>
+
+</html>

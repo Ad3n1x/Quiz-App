@@ -1,91 +1,106 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz Selection</title>
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #4b79a1, #283e51);
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Selection</title>
+  <link rel="icon" type="image/x-icon" href="./Copilot_20260510_161806.png">
 
-      .container {
-        text-align: center;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 40px;
-        border-radius: 15px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-      }
 
-      h1 {
-        margin-bottom: 30px;
-        font-size: 32px;
-        letter-spacing: 1px;
-      }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+    }
 
-      .quiz-btn {
-        display: block;
-        width: 250px;
-        margin: 15px auto;
-        padding: 15px;
-        font-size: 18px;
-        font-weight: bold;
-        color: white;
-        background: #1e90ff;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-        text-decoration: none;
-      }
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
 
-      .quiz-btn:hover {
-        background: #63b3ff;
-        transform: scale(1.05);
-      }
+    h1 {
+      margin-bottom: 30px;
+      font-size: 32px;
+      letter-spacing: 1px;
+    }
 
-      .quiz-btn:active {
-        transform: scale(0.98);
-      }
+    .quiz-btn {
+      display: block;
+      width: 250px;
+      margin: 15px auto;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background: #1e90ff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
 
-      a {
-        color: white;
-        text-decoration: none;
-        display: block;
-      }
-    </style>
-  </head>
+    .quiz-btn:hover {
+      background: #63b3ff;
+      transform: scale(1.05);
+    }
 
-  <body>
-    <div class="container">
-      <h1>Select a Quiz</h1>
-      <a href="./math.html">
-        <button class="quiz-btn">Math Quiz</button>
-      </a>
-      <a href="phyquiz.html">
-        <button class="quiz-btn">Physics Quiz</button>
-      </a>
+    .quiz-btn:active {
+      transform: scale(0.98);
+    }
 
-      <a href="chemquiz.html">
-        <button class="quiz-btn">Chemistry Quiz</button>
-      </a>
+    a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 25px;
+      color: #f0f0f0;
+    }
 
-       <a href="customquiz.html">
-        <button class="quiz-btn">Create Custom Quiz</button>
-      </a>
-        <a href="anscustom.html">
-        <button class="quiz-btn">Take Custom Quiz</button>
-      </a>
-    </div>
-  </body>
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Select a Quiz</h1>
+    <a href="./math.html">
+      <button class="quiz-btn">Math Quiz</button>
+    </a>
+    <a href="phyquiz.html">
+      <button class="quiz-btn">Physics Quiz</button>
+    </a>
+
+    <a href="chemquiz.html">
+      <button class="quiz-btn">Chemistry Quiz</button>
+    </a>
+
+    <a href="customquiz.html">
+      <button class="quiz-btn">Create Custom Quiz</button>
+    </a>
+    <a href="anscustom.html">
+      <button class="quiz-btn">Take Custom Quiz</button>
+    </a>
+</div>
+   <footer>
+  <p>Made by AD3NIX</p>
+</footer>
+</body>
+
+
 </html>
