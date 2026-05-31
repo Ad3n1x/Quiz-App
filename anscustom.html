@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Custom Quiz</title>
-  <link rel="icon" type="image/x-icon" href="./logo.png">
+  <link rel="icon" type="image/x-icon" href="./logo.png" />
 
   <style>
     body {
@@ -163,65 +163,67 @@
 </head>
 
 <body>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      /* Allow vertical scrolling only if needed */
+      overflow-x: hidden;
+      background: red;
+      font-family: "Segoe UI", sans-serif;
+      box-sizing: border-box;
+    }
 
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;   /* Allow vertical scrolling only if needed */
-    background: red;
-    font-family: "Segoe UI", sans-serif;
-    box-sizing: border-box;
-  }
+    #tokenBox {
+      max-width: 200px;
+      width: 100%;
+      /* margin: 0 auto 40px auto; */
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-  #tokenBox {
-    max-width: 200px;
-    width: 100%;
-    /* margin: 0 auto 40px auto; */
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+    #tokenInput {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 18px;
+      box-sizing: border-box;
+    }
 
-  #tokenInput {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    font-size: 18px;
-    box-sizing: border-box;
-  }
+    #loadQuizBtn {
+      width: 100%;
+      padding: 12px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
 
-  #loadQuizBtn {
-    width: 100%;
-    padding: 12px;
-    background: #0d6efd;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    box-sizing: border-box;
-  }
+    #loadQuizBtn:hover {
+      background: #084298;
+    }
 
-  #loadQuizBtn:hover {
-    background: #084298;
-  }
-
-  #display {
-    margin-top: 30px;
-    overflow: hidden; /* Prevent inner overflow */
-  }
-</style>
-
+    #display {
+      margin-top: 30px;
+      overflow: hidden;
+      /* Prevent inner overflow */
+    }
+  </style>
 
   <div id="tokenBox">
     <h2>Enter Quiz Token</h2>
-    <input type="text" id="tokenInput" placeholder="e.g. QZ-4F9A2C">
+    <input type="text" id="tokenInput" placeholder="e.g. QZ-4F9A2C" />
     <button id="loadQuizBtn">Load Quiz</button>
   </div>
 
@@ -240,7 +242,7 @@
       query,
       where,
       updateDoc,
-      doc
+      doc,
     } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -270,7 +272,9 @@
 
     const clean = (t) => t.replace(/\s+/g, " ").trim();
 
-    document.getElementById("loadQuizBtn").addEventListener("click", loadQuizByToken);
+    document
+      .getElementById("loadQuizBtn")
+      .addEventListener("click", loadQuizByToken);
 
     async function loadQuizByToken() {
       const token = document.getElementById("tokenInput").value.trim();
@@ -359,7 +363,6 @@
       answered = false;
       selectedOption = null;
 
-
       display.innerHTML = `
             <h3>Question ${currentIndex + 1} / ${questions.length}</h3>
             <h4 id="timer"></h4>
@@ -400,7 +403,9 @@
 
     function selectOption(li) {
       selectedOption = li;
-      document.querySelectorAll("#options li").forEach((opt) => (opt.className = ""));
+      document
+        .querySelectorAll("#options li")
+        .forEach((opt) => (opt.className = ""));
       li.className = "selected";
     }
 
@@ -467,3 +472,5 @@
     }
   </script>
 </body>
+
+</html>
