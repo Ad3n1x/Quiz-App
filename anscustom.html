@@ -53,7 +53,27 @@
     .quiz-actions button:hover,.result-btn:hover{background:#30435f}
     .result-score{color:#93c5fd}
     @media(forced-colors:active){.quiz-options li,.token-card,.info-card,.quiz-shell{border:1px solid CanvasText}}
-  </style>
+  
+/* Consistent QZ finish: calmer backgrounds, sharper hierarchy, better mobile touch targets. */
+:root{--bg:#0b1020;--panel:#121b2d;--panel2:#19263b;--line:#30415c;--text:#f4f7ff;--muted:#a8b5ca;--lime:#8cf2cf;--purple:#82b8ff;--red:#ff8f9a;accent-color:var(--lime)}
+html{background:var(--bg);scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 12% 0%,#17334a 0,transparent 38%),radial-gradient(ellipse at 100% 75%,#242044 0,transparent 32%),var(--bg)}
+.token-card,.info-card,.quiz-card,.question-card,.result-card{background:linear-gradient(145deg,#162239f7,#101827f7)!important;border-color:#9bb8df2b!important;box-shadow:0 24px 70px #02061770,inset 0 1px #ffffff08}
+.brand-mark{background:linear-gradient(135deg,#9bf4d7,#79c9ff)!important;box-shadow:0 8px 24px #79c9ff22}
+.eyebrow{color:var(--lime)!important}.back-link,.secondary,.ghost-btn{background:#142139!important;border-color:#354761!important;color:#e7efff!important}
+input,select,textarea{background:#0b1322!important;border-color:#3a4d69!important;color:#f4f7ff!important}
+input::placeholder,textarea::placeholder{color:#8b9ab0!important;opacity:1}
+button{min-height:44px;transition:transform .16s ease,filter .16s ease,border-color .16s ease}
+button:hover{filter:brightness(1.06)}button:active{transform:translateY(1px)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--lime)!important;outline-offset:3px}
+.answer-option:hover,.option:hover{border-color:var(--purple)!important}
+.answer-option.selected,.option.selected{border-color:var(--lime)!important;background:#17334a!important}
+.answer-option.correct,.option.correct{border-color:#59d6aa!important;background:#143a32!important}
+.answer-option.wrong,.option.wrong{border-color:var(--red)!important;background:#48232f!important}
+@media(max-width:680px){body{justify-content:flex-start;padding:18px 12px}.topbar,.intro,.entry-layout,.quiz-layout,.quiz-shell,.quiz-card{width:100%;max-width:100%}.entry-layout{grid-template-columns:minmax(0,1fr)}.topbar{flex-wrap:wrap}.intro h1{font-size:clamp(2.2rem,11vw,3.8rem)}.token-card,.info-card{border-radius:18px}.token-card{padding:clamp(18px,5vw,26px)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+</style>
 </head>
 <body>
   <header class="topbar">
