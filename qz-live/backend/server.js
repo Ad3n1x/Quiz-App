@@ -66,7 +66,7 @@ async function route(req, res) {
     if (method === 'GET' && path === '/api/_healthcheck') return res.json({ message: 'Success' });
     if (method === 'GET' && path === '/api/daily/leaderboard') {
       const day = String(req.query.day || new Date().toISOString().slice(0, 10));
-      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(day)) return fail(res, 400, 'Invalid challenge date.');
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return fail(res, 400, 'Invalid challenge date.');
       let entries;
       if (pool) {
         const result = await pool.query('SELECT name, score, updated_at FROM qz_daily_scores WHERE day=$1 ORDER BY score DESC, updated_at ASC LIMIT 50', [day]);
@@ -81,7 +81,7 @@ async function route(req, res) {
       const player_id = String(req.body?.player_id || '').trim().slice(0, 100);
       const name = cleanName(req.body?.name).slice(0, 18);
       const score = Number(req.body?.score);
-      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(day) || day !== new Date().toISOString().slice(0,10)) return fail(res, 400, 'Scores can only be submitted for today’s challenge.');
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || day !== new Date().toISOString().slice(0,10)) return fail(res, 400, 'Scores can only be submitted for today’s challenge.');
       if (!player_id || !name || !Number.isInteger(score) || score < 0 || score > 5) return fail(res, 400, 'Enter a leaderboard name and a score from 0 to 5.');
       const updated_at = Date.now();
       let best_score = score;
