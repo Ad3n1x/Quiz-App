@@ -21,6 +21,7 @@ const pool = process.env.DATABASE_URL ? new Pool({
 const memoryRooms = new Map();
 const subscriptions = new Map();
 const memoryDailyScores = new Map();
+let dailyNewsCache = { day: '', fetchedAt: 0, questions: [], sources: [] };
 async function init() {
   if (pool) await pool.query(`
     CREATE TABLE IF NOT EXISTS qz_rooms (
@@ -31,8 +32,10 @@ async function init() {
       created_at BIGINT NOT NULL
     );
     CREATE INDEX IF NOT EXISTS qz_rooms_code_status_idx ON qz_rooms(code, status);
-    CREATE TABLE IF NOT EXISTS qz_daily_scores (day TEXT NOT NULL, player_id TEXT NOT NULL, name TEXT NOT NULL, score INTEGER NOT NULL CHECK (score >= 0 AND score <= 5), updated_at BIGINT NOT NULL, PRIMARY KEY (day, player_id));
+    CREATE TABLE IF NOT EXISTS qz_daily_scores (day TEXT NOT NULL, player_id TEXT NOT NULL, name TEXT NOT NULL, score INTEGER NOT NULL CHECK (score >= 0 AND score <= 20), updated_at BIGINT NOT NULL, PRIMARY KEY (day, player_id));
     CREATE INDEX IF NOT EXISTS qz_daily_scores_rank_idx ON qz_daily_scores(day, score DESC, updated_at ASC);
+    ALTER TABLE qz_daily_scores DROP CONSTRAINT IF EXISTS qz_daily_scores_score_check;
+    ALTER TABLE qz_daily_scores ADD CONSTRAINT qz_daily_scores_score_check CHECK (score >= 0 AND score <= 20);
   `);
 }
 async function saveRoom(room) {
@@ -64,6 +67,52 @@ async function route(req, res) {
   try {
     const { method, path } = req;
     if (method === 'GET' && path === '/api/_healthcheck') return res.json({ message: 'Success' });
+    if (method === 'GET' && path === '/api/daily/questions') {
+      const day = String(req.query.day || new Date().toISOString().slice(0, 10));
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || day !== new Date().toISOString().slice(0, 10)) return fail(res, 400, 'The news challenge is available for today only.');
+      if (dailyNewsCache.day === day && Date.now() - dailyNewsCache.fetchedAt < 30 * 60 * 1000) return res.json({ day, questions: dailyNewsCache.questions, sources: dailyNewsCache.sources, cached: true });
+      const feeds = [
+        'https://news.google.com/rss?hl=en-NG&gl=NG&ceid=NG:en',
+        'https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-NG&gl=NG&ceid=NG:en',
+        'https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-NG&gl=NG&ceid=NG:en',
+        'https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=en-NG&gl=NG&ceid=NG:en',
+        'https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-NG&gl=NG&ceid=NG:en',
+        'https://news.google.com/rss/headlines/section/topic/SPORTS?hl=en-NG&gl=NG&ceid=NG:en'
+      ];
+      const decode = value => value.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+      const collected = new Map();
+      await Promise.all(feeds.map(async url => {
+        try {
+          const response = await fetch(url, { headers: { 'User-Agent': 'QZ-Daily-Quiz/1.0' }, signal: AbortSignal.timeout(7000) });
+          if (!response.ok) return;
+          const xml = await response.text();
+          const items = xml.match(/<item>[\s\S]*?<\/item>/g) || [];
+          for (const item of items) {
+            const titleMatch = item.match(/<title>([\s\S]*?)<\/title>/);
+            const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/);
+            if (!titleMatch || !linkMatch) continue;
+            const title = decode(titleMatch[1].replace(/<!\[CDATA\[|\]\]>/g, '')).trim();
+            const link = decode(linkMatch[1].trim());
+            if (title.length > 18 && title.length < 180 && link.startsWith('http')) collected.set(title.toLowerCase(), { title, link });
+          }
+        } catch (error) { console.warn('News feed unavailable:', url, error.message); }
+      }));
+      const headlines = [...collected.values()];
+      if (headlines.length < 80) return fail(res, 503, 'Could not collect enough current news headlines. Please try again shortly.');
+      let seed = Number(day.replaceAll('-', '')) >>> 0;
+      const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+      for (let i = headlines.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [headlines[i], headlines[j]] = [headlines[j], headlines[i]]; }
+      const selected = headlines.slice(0, 80);
+      const questions = [];
+      for (let i = 0; i < 20; i++) {
+        const group = selected.slice(i * 4, i * 4 + 4);
+        const correct = Math.floor(random() * 4);
+        const target = group[correct];
+        questions.push({ q: 'Which of these headlines appeared in today’s online news?', a: group.map(item => item.title), correct, why: 'Source: Google News. Read the report: ' + target.link, source: target.link });
+      }
+      dailyNewsCache = { day, fetchedAt: Date.now(), questions, sources: [...new Set(questions.map(q => q.source))] };
+      return res.json({ day, questions, sources: dailyNewsCache.sources, cached: false });
+    }
     if (method === 'GET' && path === '/api/daily/leaderboard') {
       const day = String(req.query.day || new Date().toISOString().slice(0, 10));
       if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return fail(res, 400, 'Invalid challenge date.');
@@ -82,7 +131,7 @@ async function route(req, res) {
       const name = cleanName(req.body?.name).slice(0, 18);
       const score = Number(req.body?.score);
       if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || day !== new Date().toISOString().slice(0,10)) return fail(res, 400, 'Scores can only be submitted for today’s challenge.');
-      if (!player_id || !name || !Number.isInteger(score) || score < 0 || score > 5) return fail(res, 400, 'Enter a leaderboard name and a score from 0 to 5.');
+      if (!player_id || !name || !Number.isInteger(score) || score < 0 || score > 20) return fail(res, 400, 'Enter a leaderboard name and a score from 0 to 20.');
       const updated_at = Date.now();
       let best_score = score;
       if (pool) {
