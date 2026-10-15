@@ -73,6 +73,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:680px){body{justify-content:flex-start;padding:18px 12px}.topbar,.intro,.entry-layout,.quiz-layout,.quiz-shell,.quiz-card{width:100%;max-width:100%}.entry-layout{grid-template-columns:minmax(0,1fr)}.topbar{flex-wrap:wrap}.intro h1{font-size:clamp(2.2rem,11vw,3.8rem)}.token-card,.info-card{border-radius:18px}.token-card{padding:clamp(18px,5vw,26px)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 
+
+/* Premium test-taking surface: focused layout, tactile answers, elegant status feedback. */
+:root{--bg:#080d18;--panel:#101a2b;--panel2:#152238;--line:#31425c;--text:#f5f7fc;--muted:#a8b5ca;--lime:#a4f2d6;--purple:#8bc8f4;--red:#ff8e9c;--gold:#e7c98b}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;background:radial-gradient(ellipse at 50% -20%,#243b57 0,transparent 48%),radial-gradient(ellipse at 0% 85%,#132c30 0,transparent 36%),var(--bg)!important;color:var(--text)}
+.token-card,.info-card,.quiz-card,.question-card,.result-card{background:linear-gradient(155deg,#17263cfa,#0e1727fa)!important;border:1px solid #b8cde521!important;border-radius:22px!important;box-shadow:0 28px 80px #0007,inset 0 1px #ffffff08!important}
+.intro h1{letter-spacing:-.065em!important;line-height:1.02}
+.brand-mark{background:linear-gradient(135deg,#b9f6df,#8bc8f4)!important;color:#09121e!important}
+.eyebrow{letter-spacing:.16em!important;color:var(--lime)!important}
+input,select,textarea{background:#090f1c!important;border:1px solid #3a4c66!important;border-radius:12px!important;color:#f5f7fc!important}
+input::placeholder,textarea::placeholder{color:#8292a9!important;opacity:1}
+button{border-radius:12px!important;font-weight:750;letter-spacing:.005em;box-shadow:0 6px 20px #0002}
+.answer-option,.option{background:linear-gradient(145deg,#17243a,#121c2d)!important;border:1px solid #354761!important;border-radius:14px!important;transition:transform .16s,border-color .16s,background .16s!important}
+.answer-option:hover,.option:hover{transform:translateY(-1px);border-color:#8bc8f4!important}
+.answer-option.selected,.option.selected{background:#203b48!important;border-color:#a4f2d6!important;box-shadow:0 0 0 1px #a4f2d622 inset}
+.answer-option.correct,.option.correct{background:#12372e!important;border-color:#5ad8a9!important}
+.answer-option.wrong,.option.wrong{background:#411f2b!important;border-color:#ff8e9c!important}
+
 </style>
 </head>
 <body>
