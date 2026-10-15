@@ -101,7 +101,16 @@ function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [notice, setNotice] = useState('');
   const [selected, setSelected] = useState<number | null>(null);
-  const [customQuestions, setCustomQuestions] = useState<Question[]>(starter);
+  const [customQuestions, setCustomQuestions] = useState<Question[]>(() => {
+    try {
+      const saved = localStorage.getItem('qz-live-question-draft');
+      if (saved) {
+        const parsed = JSON.parse(saved) as Question[];
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed.length <= 20) return parsed;
+      }
+    } catch {}
+    return starter;
+  });
   const connRef = useRef<ReturnType<typeof ws.connect> | null>(null);
   const roomRef = useRef<Room | null>(null);
   const playerRef = useRef('');
@@ -109,6 +118,18 @@ function App() {
   useEffect(() => {
     roomRef.current = room;
   }, [room]);
+  useEffect(() => {
+    try {
+      localStorage.setItem('qz-live-question-draft', JSON.stringify(customQuestions));
+    } catch {}
+  }, [customQuestions]);
+  useEffect(() => {
+    const invitePin = new URLSearchParams(window.location.search).get('pin');
+    if (invitePin && /^\\d{6}$/.test(invitePin)) {
+      setPin(invitePin);
+      setView('join');
+    }
+  }, []);
   useEffect(() => {
     playerRef.current = playerId;
   }, [playerId]);
@@ -184,6 +205,7 @@ function App() {
   const hostGame = () =>
     run(async () => {
       if (!name.trim()) throw new Error('Enter a host name first.');
+      if (customQuestions.length > 20) throw new Error('Keep each game to 20 questions or fewer.');
       if (
         customQuestions.some(
           q =>
@@ -301,6 +323,17 @@ function App() {
       setNotice('Game PIN: ' + room.code);
     }
   };
+  const copyInviteLink = async () => {
+    if (!room) return;
+    const invite = new URL(window.location.href);
+    invite.searchParams.set('pin', room.code);
+    try {
+      await navigator.clipboard.writeText(invite.toString());
+      setNotice('Invite link copied. Your friends can open it with the PIN ready.');
+    } catch {
+      setNotice('Share this link and PIN ' + room.code + ': ' + invite.toString());
+    }
+  };
   return (
     <main className="shell">
       <header className="topbar">
@@ -396,7 +429,11 @@ function App() {
             <div className="question-editor">
               <div className="editor-head">
                 <strong>Question set</strong>
-                <span>{customQuestions.length} questions</span>
+                <span>{customQuestions.length} / 20 questions</span>
+              </div>
+              <div className="editor-tools">
+                <span>Your draft saves on this device.</span>
+                <button className="text-button" onClick={() => setCustomQuestions(starter)}>Reset starter set</button>
               </div>
               <p>
                 Starter quiz: general knowledge, science and maths. You can edit
@@ -459,10 +496,22 @@ function App() {
                       </div>
                     ))}
                   </div>
+                  <div className="question-tools">
+                    <label className="seconds-edit">TIME LIMIT
+                      <select value={q.seconds} onChange={e => setCustomQuestions(old => old.map((x, k) => k === i ? { ...x, seconds: Number(e.target.value) } : x))}>
+                        <option value={10}>10 seconds</option>
+                        <option value={15}>15 seconds</option>
+                        <option value={20}>20 seconds</option>
+                        <option value={30}>30 seconds</option>
+                      </select>
+                    </label>
+                    <button className="remove-question" disabled={customQuestions.length <= 1} onClick={() => setCustomQuestions(old => old.filter((_, k) => k !== i))}>Remove question</button>
+                  </div>
                 </details>
               ))}
               <button
                 className="text-button"
+                disabled={customQuestions.length >= 20}
                 onClick={() =>
                   setCustomQuestions(old => [
                     ...old,
@@ -476,7 +525,7 @@ function App() {
                   ])
                 }
               >
-                <Plus size={16} /> Add question
+                <Plus size={16} /> {customQuestions.length >= 20 ? 'Question limit reached' : 'Add question'}
               </button>
             </div>
             <button
@@ -549,9 +598,14 @@ function App() {
                     <strong>{room.code}</strong>
                     <span>Share this code with your players</span>
                   </div>
-                  <button className="copy" onClick={copyPin}>
-                    <Copy size={17} /> Copy PIN
-                  </button>
+                  <div className="pin-actions">
+                    <button className="copy" onClick={copyPin}>
+                      <Copy size={17} /> Copy PIN
+                    </button>
+                    <button className="copy invite-copy" onClick={copyInviteLink}>
+                      <Users size={17} /> Copy invite link
+                    </button>
+                  </div>
                 </div>
                 <div className="players-card">
                   <div className="section-head">
