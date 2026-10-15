@@ -341,9 +341,14 @@ function App() {
             QZ<span className="muted"> LIVE</span>
           </span>
         </button>
-        <span className="live-pill">
-          <i /> LIVE QUIZ ROOMS
-        </span>
+        <div className="topbar-actions">
+          <a className="solo-link" href="https://ad3n1x.github.io/Quiz-App/" target="_blank" rel="noreferrer">
+            Solo quiz hub <ArrowRight size={14} />
+          </a>
+          <span className="live-pill">
+            <i /> LIVE QUIZ ROOMS
+          </span>
+        </div>
       </header>
       <section className="hero">
         <div className="eyebrow">
