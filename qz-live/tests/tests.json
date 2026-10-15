@@ -1,0 +1,76 @@
+[
+  {
+    "name": "Host creates a room and players can join with its PIN",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "room creation API",
+      "PIN generation",
+      "room join API",
+      "live player lobby"
+    ],
+    "description": "Verifies the main host-and-join flow creates a room and makes a joined player visible in the shared room.",
+    "steps": [
+      "Open QZ Live and choose Host a live game",
+      "Enter a host name and create the room",
+      "Copy the six-digit PIN",
+      "Open another browser session and join with the PIN and a unique player name"
+    ],
+    "expected": "The player joins successfully and appears in the host room's player list."
+  },
+  {
+    "name": "Live answers update score and round results",
+    "viewport": "desktop",
+    "covers": [
+      "question start API",
+      "answer submission API",
+      "server-side scoring",
+      "final Clutch Round double points",
+      "realtime room updates",
+      "leaderboard"
+    ],
+    "description": "Verifies players can answer a live question and the shared score is reflected in the leaderboard.",
+    "steps": [
+      "Create a room and join with a second player",
+      "Start the game as host",
+      "Choose an answer as the player",
+      "End the question as host"
+    ],
+    "expected": "The answer is accepted once, the player score updates for a correct answer, and the room displays round results."
+  },
+  {
+    "name": "Reject invalid PIN and duplicate answers",
+    "viewport": "mobile",
+    "covers": [
+      "PIN validation",
+      "answer locking",
+      "mobile join and answer flow"
+    ],
+    "description": "Verifies invalid join details and repeated answers are rejected with a visible error.",
+    "steps": [
+      "Open Join with a PIN on a mobile viewport",
+      "Enter a name and an invalid PIN",
+      "Submit the join form",
+      "In a valid game, submit an answer and try to answer again"
+    ],
+    "expected": "Invalid PINs and duplicate answers are rejected with a visible message and the first answer remains locked."
+  },
+  {
+    "name": "Host advances through the quiz to final standings",
+    "viewport": "desktop",
+    "covers": [
+      "question advance API",
+      "question timer",
+      "final game state",
+      "final leaderboard"
+    ],
+    "description": "Verifies the host can advance from the live question through results and reach final standings.",
+    "steps": [
+      "Create a room with at least two questions and join with a player",
+      "Start the game",
+      "End the first question and choose Next question after results",
+      "Advance through the last round"
+    ],
+    "expected": "Questions advance in order and the final screen shows the ranked player scores."
+  }
+]
