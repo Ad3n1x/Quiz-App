@@ -88,7 +88,7 @@
       if (destination.hash) {
         requestAnimationFrame(() => document.getElementById(decodeURIComponent(destination.hash.slice(1)))?.scrollIntoView());
       } else if (scroll) {
-        window.scrollTo({ top: 0, behavior: "instant" });
+        window.scrollTo(0, 0);
       }
       document.dispatchEvent(new CustomEvent("qz:after-navigate", { detail: { url: destination.href } }));
     } catch (error) {
@@ -101,7 +101,8 @@
 
   document.addEventListener("click", event => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const anchor = event.target.closest("a");
+    const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+    const anchor = target?.closest("a");
     if (!isInternalPageLink(anchor)) return;
     const destination = new URL(anchor.href, location.href);
     if (destination.pathname === location.pathname && destination.search === location.search && destination.hash) return;
