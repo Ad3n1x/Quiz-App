@@ -26,3 +26,13 @@ body.qz-legacy th,body.qz-legacy td{padding:10px;border-bottom:1px solid var(--q
 body.qz-legacy img,body.qz-legacy video{max-width:100%;height:auto}
 @media(max-width:560px){body.qz-legacy{padding:12px!important;justify-content:flex-start!important}body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{padding:16px!important;border-radius:16px!important}body.qz-legacy .difficulty-btn{width:100%!important}body.qz-legacy .question-block{padding:14px!important}body.qz-legacy button{max-width:100%;white-space:normal;overflow-wrap:anywhere}body.qz-legacy .option-edit{flex-wrap:wrap}body.qz-legacy table{display:block;overflow-x:auto}}
 @media(prefers-reduced-motion:reduce){body.qz-legacy *,body.qz-legacy *::before,body.qz-legacy *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Shared interaction and responsive polish across legacy subject quizzes. */
+body.qz-legacy{background:radial-gradient(ellipse at 12% 0%,#243320 0,transparent 35%),radial-gradient(ellipse at 100% 15%,#1b292a 0,transparent 25%),var(--qz-bg)!important}
+body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{border-color:#ffffff20!important;background:linear-gradient(145deg,#1b2018,#141711)!important;box-shadow:0 26px 85px #0006!important}
+body.qz-legacy button,body.qz-legacy input[type=submit],body.qz-legacy input[type=button]{min-height:46px!important;border-radius:12px!important;transition:transform .16s ease,filter .16s ease,box-shadow .16s ease!important}
+body.qz-legacy button:hover,body.qz-legacy input[type=submit]:hover,body.qz-legacy input[type=button]:hover{box-shadow:0 10px 28px #a3ff6817!important}
+body.qz-legacy input:not([type=radio]):not([type=checkbox]),body.qz-legacy textarea,body.qz-legacy select{border-color:#ffffff28!important;border-radius:12px!important}
+body.qz-legacy input:focus,body.qz-legacy textarea:focus,body.qz-legacy select:focus{border-color:var(--qz-lime)!important;outline:none!important}
+body.qz-legacy button:focus-visible,body.qz-legacy a:focus-visible,body.qz-legacy input:focus-visible,body.qz-legacy select:focus-visible,body.qz-legacy textarea:focus-visible{outline:2px solid var(--qz-lime)!important;outline-offset:4px!important}
+@media(max-width:480px){body.qz-legacy{padding:12px!important}body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{padding:18px!important;border-radius:18px!important}body.qz-legacy button{width:100%;max-width:100%}}
