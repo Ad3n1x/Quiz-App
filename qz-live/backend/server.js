@@ -89,7 +89,7 @@ async function route(req, res) {
     if (method === 'POST' && path === '/api/rooms/join') {
       const code = String(req.body?.code || '').trim();
       const name = cleanName(req.body?.name);
-      if (!/^\\d{6}$/.test(code) || !name) return fail(res, 400, 'Enter a valid PIN and player name.');
+      if (!/^\d{6}$/.test(code) || !name) return fail(res, 400, 'Enter a valid PIN and player name.');
       const room = (await allRooms()).find(r => r.code === code && r.status === 'lobby');
       if (!room) return fail(res, 404, 'That PIN is invalid or the game has already started.');
       if (room.players.some(p => p.name.toLowerCase() === name.toLowerCase())) return fail(res, 409, 'That name is already taken in this room.');
