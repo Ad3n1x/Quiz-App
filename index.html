@@ -36,7 +36,7 @@ button:focus-visible,a:focus-visible{outline-offset:4px}@media(max-width:760px){
 <main>
 <section class="hero">
 <div><div class="eyebrow"><span class="dot"></span> Small quiz. Big brain energy.</div><h1>Think fast.<br><span>Prove it.</span></h1><p class="hero-copy">A quick quiz break that can turn into a friendly score battle. Test what you know, find your weak spots, and challenge someone to beat your result.</p><div class="actions"><button class="btn primary" id="startDaily">Play today's challenge ↗</button><button class="btn secondary" id="shareSite">Challenge a friend</button><a class="btn secondary" href="https://qz-live-web.onrender.com/" target="_blank" rel="noopener noreferrer">Play live with friends ↗</a></div><p class="tiny" style="margin-top:14px">No account. No long setup. Just play.</p></div>
-<div class="hero-card" aria-label="Preview of a quiz question"><div class="card-top"><span>DAILY CHALLENGE</span><span class="today-tag" id="dateTag">TODAY</span></div><div class="question-preview">How sharp is your general knowledge?</div><div class="answer-preview">A. Test yourself in 5 quick questions</div><div class="answer-preview">B. Get your score instantly</div><div class="answer-preview">C. Send the challenge to a friend</div><p class="tiny" style="margin:18px 0 0">A shared daily set for everyone. Scores sync to the online leaderboard.</p></div>
+<div class="hero-card" aria-label="Preview of a quiz question"><div class="card-top"><span>DAILY CHALLENGE</span><span class="today-tag" id="dateTag">TODAY</span></div><div class="question-preview">How sharp is your general knowledge?</div><div class="answer-preview">A. Test yourself in 5 quick questions</div><div class="answer-preview">B. Get your score instantly</div><div class="answer-preview">C. Send the challenge to a friend</div><p class="tiny" style="margin:18px 0 0">Fresh questions generated every day. Everyone gets the same daily set, and scores sync online.</p></div>
 </section>
 <section class="stats" aria-label="Your progress"><div class="stat"><strong id="bestScore">—</strong><span>Best daily score</span></div><div class="stat"><strong id="playedCount">0</strong><span>Challenges played</span></div><div class="stat"><strong id="perfectCount">0</strong><span>Perfect scores</span></div><section class="stat" style="grid-column:1/-1"><strong style="font-size:1.1rem">🌐 Online daily leaderboard</strong><span>Best scores from players around the world · resets daily</span><div id="dailyLeaderboard" style="margin-top:12px;display:grid;gap:8px"><span class="tiny">Loading online scores…</span></div><p class="notice" id="onlineNotice" aria-live="polite"></p></section></section>
 <section><div class="section-head"><div><h2>Pick your arena</h2><p>Choose a subject and test yourself.</p></div><span class="pill">5 ways to play</span></div>
@@ -47,7 +47,7 @@ button:focus-visible,a:focus-visible{outline-offset:4px}@media(max-width:760px){
 <a class="quiz-card" href="./chemquiz.html"><span class="quiz-icon">🧪</span><h3>Chemistry</h3><p>Elements, reactions and concepts.</p><span class="arrow">Choose difficulty ↗</span></a>
 <a class="quiz-card" href="./customquiz.html"><span class="quiz-icon">🛠️</span><h3>Build a quiz</h3><p>Create your own questions to test others.</p><span class="arrow">Create a quiz ↗</span></a>
 <a class="quiz-card" href="./anscustom.html"><span class="quiz-icon">🎯</span><h3>Take a custom quiz</h3><p>Enter the challenge someone made for you.</p><span class="arrow">Play a custom quiz ↗</span></a>
-<a class="quiz-card" href="#daily" id="dailyCard"><span class="quiz-icon">🏆</span><h3>Daily challenge</h3><p>Five quick questions. One score to share.</p><span class="arrow">Start today's set ↗</span></a>
+<a class="quiz-card" href="#daily" id="dailyCard"><span class="quiz-icon">🏆</span><h3>Daily challenge</h3><p>Five freshly generated questions every day. One score to share.</p><span class="arrow">Start today's set ↗</span></a>
 </div></section>
 <section class="daily-panel" id="daily"><div><div class="eyebrow" style="color:#27310e">THE DAILY FIVE</div><h2>Got 60 seconds?</h2><p>Take today's set, then pass the challenge to the next person.</p></div><button class="btn" id="startDaily2">I'm in — play now ↗</button></section>
 </main>
@@ -85,13 +85,29 @@ const bank=[
 ];
 let questions=[],index=0,score=0,answered=false,results=[];
 function dailySet(){
-  // Seed a shuffle from the local calendar date so the same day gets the same five
-  // questions, while the question order and selection rotate properly each day.
+  // Generate a deterministic fresh set from the UTC date. Everyone gets the same
+  // five questions on a given day, but the numbers and question types change daily.
   let seed=Number(dayKey.replaceAll('-',''))>>>0;
   const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
-  const pool=bank.map((question,i)=>({...question,_order:i}));
+  const int=(min,max)=>Math.floor(random()*(max-min+1))+min;
+  const make=(q,correct,why,wrong)=>{
+    const values=[...new Set([correct,...wrong])].filter(Number.isFinite);
+    while(values.length<4){const candidate=correct+int(-12,12);if(candidate!==correct&&!values.includes(candidate))values.push(candidate)}
+    const options=values.slice(0,4).sort(()=>random()-.5);
+    return {q,a:options.map(String),correct:options.indexOf(correct),why};
+  };
+  const generators=[
+    ()=>{const a=int(12,89),b=int(11,79),v=a+b;return make(`What is ${a} + ${b}?`,v,`Add the two numbers: ${a} + ${b} = ${v}.`,[v+int(1,9),v-int(1,9),a+b+10])},
+    ()=>{const a=int(35,150),b=int(10,a-1),v=a-b;return make(`Calculate ${a} − ${b}.`,v,`${a} − ${b} = ${v}.`,[v+int(2,12),v-int(2,12),v+10])},
+    ()=>{const a=int(3,18),b=int(4,15),v=a*b;return make(`What is ${a} × ${b}?`,v,`${a} multiplied by ${b} equals ${v}.`,[v+a,v-b,v+int(5,15)])},
+    ()=>{const b=int(2,12),v=int(3,15),a=b*v;return make(`What is ${a} ÷ ${b}?`,v,`${a} divided by ${b} equals ${v}.`,[v+1,Math.max(1,v-1),v+b])},
+    ()=>{const base=int(2,20)*5,pct=[10,20,25,50][int(0,3)],v=base*pct/100;return make(`What is ${pct}% of ${base}?`,v,`${pct}% of ${base} is ${v}.`,[v+base/10,Math.max(1,v-2),v+2])},
+    ()=>{const a=int(2,20),v=a*a;return make(`What is ${a} squared?`,v,`${a}² = ${a} × ${a} = ${v}.`,[a*2,v+a,v-1])},
+    ()=>{const first=int(2,30),step=int(2,12),v=first+step*3;return make(`Complete the sequence: ${first}, ${first+step}, ${first+step*2}, __.`,v,`The sequence increases by ${step} each time, so the next number is ${v}.`,[v+step,v-step,first+step*4])}
+  ];
+  const pool=generators.map((_,i)=>i);
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
-  return pool.slice(0,5).map(({_order,...question})=>question);
+  return pool.slice(0,5).map(i=>generators[i]());
 }
 function readStats(){
   const fallback={played:0,perfect:0,best:0,lastDay:''};
