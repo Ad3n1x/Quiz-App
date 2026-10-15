@@ -1,15 +1,23 @@
-name: QZ Live CI
+name: QZ App CI
 
 on:
   push:
     branches: [main]
     paths:
       - "qz-live/**"
+      - "*.html"
+      - "*.css"
+      - "*.js"
+      - "assets/**"
       - ".github/workflows/qz-live-deploy.yml"
   pull_request:
     branches: [main]
     paths:
       - "qz-live/**"
+      - "*.html"
+      - "*.css"
+      - "*.js"
+      - "assets/**"
       - ".github/workflows/qz-live-deploy.yml"
   workflow_dispatch:
 
@@ -17,12 +25,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: qz-live-ci
+  group: qz-app-ci
   cancel-in-progress: true
 
 jobs:
   verify:
-    name: Build and verify QZ Live
+    name: Build and verify both QZ apps
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -33,18 +41,32 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install frontend dependencies
+      - name: Check whitespace errors
+        run: git diff --check
+
+      - name: Verify solo quiz entry points
+        run: |
+          test -f index.html
+          test -f math.html
+          test -f phyquiz.html
+          test -f chemquiz.html
+          test -f customquiz.html
+          test -f anscustom.html
+          test -f qz-shared.css
+          echo "Solo quiz entry points are present."
+
+      - name: Install QZ Live frontend dependencies
         working-directory: qz-live
         run: npm install
 
-      - name: Build frontend
+      - name: Build QZ Live frontend
         working-directory: qz-live
         run: npm run build
 
-      - name: Install backend dependencies
+      - name: Install QZ Live backend dependencies
         working-directory: qz-live/backend
         run: npm install
 
-      - name: Check backend JavaScript syntax
+      - name: Check QZ Live backend syntax
         working-directory: qz-live/backend
         run: node --check server.js
