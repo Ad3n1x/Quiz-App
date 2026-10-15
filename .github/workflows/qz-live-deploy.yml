@@ -1,4 +1,4 @@
-name: QZ Live CI and Deploy
+name: QZ Live CI
 
 on:
   push:
@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: qz-live-deploy
+  group: qz-live-ci
   cancel-in-progress: true
 
 jobs:
@@ -48,29 +48,3 @@ jobs:
       - name: Check backend JavaScript syntax
         working-directory: qz-live/backend
         run: node --check server.js
-
-  deploy-render:
-    name: Trigger Render deployment
-    needs: verify
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    env:
-      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-    steps:
-      - name: Deploy QZ Live API
-        if: env.RENDER_API_KEY != ''
-        run: |
-          curl --fail-with-body --silent --show-error \
-            --request POST \
-            --url "https://api.render.com/v1/services/srv-db8e90hsrm7s73ebbd30/deploys" \
-            --header "Authorization: Bearer ${RENDER_API_KEY}" \
-            --header "Accept: application/json"
-
-      - name: Deploy QZ Live frontend
-        if: env.RENDER_API_KEY != ''
-        run: |
-          curl --fail-with-body --silent --show-error \
-            --request POST \
-            --url "https://api.render.com/v1/services/srv-db8eairrjlhs73e2ue40/deploys" \
-            --header "Authorization: Bearer ${RENDER_API_KEY}" \
-            --header "Accept: application/json"
