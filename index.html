@@ -63,7 +63,7 @@ button:focus-visible,a:focus-visible{outline-offset:4px}@media(max-width:760px){
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
-const dayKey=new Date().toISOString().slice(0,10);
+const now=new Date();const dayKey=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
 $('year').textContent=new Date().getFullYear();
 $('dateTag').textContent=new Date().toLocaleDateString(undefined,{month:'short',day:'numeric'}).toUpperCase();
 const bank=[
@@ -84,15 +84,41 @@ const bank=[
 {q:'Which instrument measures temperature?',a:['Barometer','Thermometer','Ammeter','Voltmeter'],correct:1,why:'A thermometer measures temperature.'}
 ];
 let questions=[],index=0,score=0,answered=false,results=[];
-function dailySet(){const n=Number(dayKey.replaceAll('-',''));const start=n%bank.length;return Array.from({length:5},(_,i)=>bank[(start+i*3)%bank.length]);}
-function readStats(){try{return JSON.parse(localStorage.getItem('qzStats')||'{"played":0,"perfect":0,"best":0,"lastDay":""}')}catch(e){return {played:0,perfect:0,best:0,lastDay:''}}}
+function dailySet(){
+  // Seed a shuffle from the local calendar date so the same day gets the same five
+  // questions, while the question order and selection rotate properly each day.
+  let seed=Number(dayKey.replaceAll('-',''))>>>0;
+  const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+  const pool=bank.map((question,i)=>({...question,_order:i}));
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  return pool.slice(0,5).map(({_order,...question})=>question);
+}
+function readStats(){
+  const fallback={played:0,perfect:0,best:0,lastDay:''};
+  try{
+    const saved=JSON.parse(localStorage.getItem('qzStats')||'{}');
+    return {played:Number(saved.played)||0,perfect:Number(saved.perfect)||0,best:Number(saved.best)||0,lastDay:typeof saved.lastDay==='string'?saved.lastDay:''};
+  }catch(e){return fallback}
+}
 function paintStats(){const s=readStats();$('bestScore').textContent=s.best+'/5';$('playedCount').textContent=s.played;$('perfectCount').textContent=s.perfect}
 paintStats();
 if(new URLSearchParams(location.search).has('challenge'))$('challengeBanner').classList.add('show');
 function startQuiz(){questions=dailySet();index=0;score=0;results=[];answered=false;$('quizOverlay').classList.add('open');$('resultOverlay').classList.remove('open');renderQuestion();}
 function renderQuestion(){const q=questions[index];answered=false;$('questionCounter').textContent='QUESTION '+(index+1)+' OF '+questions.length;$('scoreLive').textContent=score+' point'+(score===1?'':'s');$('progressFill').style.width=(index/questions.length*100)+'%';$('questionTitle').textContent=q.q;$('options').replaceChildren();$('nextQuestion').disabled=true;$('nextQuestion').textContent=index===questions.length-1?'See my score →':'Next question →';$('quizNotice').textContent='Choose one answer.';q.a.forEach((answer,i)=>{const b=document.createElement('button');b.type='button';b.className='option';b.textContent=String.fromCharCode(65+i)+'. '+answer;b.addEventListener('click',()=>choose(i,b));$('options').appendChild(b)});}
 function choose(choice,button){if(answered)return;answered=true;const q=questions[index];const buttons=[...$('options').querySelectorAll('button')];buttons.forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add('correct')});if(choice===q.correct){score++;$('quizNotice').textContent='Correct! '+q.why}else{button.classList.add('wrong');$('quizNotice').textContent='Not quite. '+q.why}results.push({q:q.q,choice,correct:q.correct});$('scoreLive').textContent=score+' point'+(score===1?'':'s');$('progressFill').style.width=((index+1)/questions.length*100)+'%';$('nextQuestion').disabled=false;}
-function finish(){ $('quizOverlay').classList.remove('open');$('resultOverlay').classList.add('open');$('finalScore').textContent=score+'/5';const msg=score===5?'Perfect score. Brain officially certified.':score>=4?'Sharp! You really know your stuff.':score>=2?'Good run. Run it back tomorrow.':'Warm-up complete. Your comeback arc starts now.';$('resultMessage').textContent=msg;$('resultRank').textContent=score===5?'🏆 PERFECT FIVE':score>=4?'⚡ QUICK THINKER':score>=2?'🧠 GETTING WARM':'🚀 KEEP GOING';const s=readStats();s.played=(s.played||0)+1;s.perfect=(s.perfect||0)+(score===5?1:0);s.best=Math.max(s.best||0,score);s.lastDay=dayKey;try{localStorage.setItem('qzStats',JSON.stringify(s))}catch(e){}paintStats();}
+function finish(){
+  $('quizOverlay').classList.remove('open');$('resultOverlay').classList.add('open');
+  $('finalScore').textContent=score+'/5';
+  const msg=score===5?'Perfect score. Brain officially certified.':score>=4?'Sharp! You really know your stuff.':score>=2?'Good run. Run it back tomorrow.':'Warm-up complete. Your comeback arc starts now.';
+  $('resultMessage').textContent=msg;
+  $('resultRank').textContent=score===5?'🏆 PERFECT FIVE':score>=4?'⚡ QUICK THINKER':score>=2?'🧠 GETTING WARM':'🚀 KEEP GOING';
+  const s=readStats();
+  // Count at most one completed challenge per local day, even if the user replays.
+  if(s.lastDay!==dayKey){s.played++;if(score===5)s.perfect++;s.lastDay=dayKey}
+  s.best=Math.max(s.best,score);
+  try{localStorage.setItem('qzStats',JSON.stringify(s))}catch(e){}
+  paintStats();
+}
 function shareText(){return 'I scored '+score+'/5 on today’s QZ Daily Challenge! '+(score===5?'Perfect five!':'Can you beat me?')+' Play here: '+location.origin+location.pathname+'?challenge=1';}
 async function share(textValue){try{if(navigator.share){await navigator.share({title:'QZ Daily Challenge',text:textValue,url:location.origin+location.pathname+'?challenge=1'});$('shareNotice').textContent='Challenge shared — your turn to recruit a rival.'}else{await navigator.clipboard.writeText(textValue);$('shareNotice').textContent='Challenge copied! Paste it into WhatsApp, TikTok or your group chat.'}}catch(e){if(e.name!=='AbortError'){$('shareNotice').textContent='Sharing is unavailable here. Copy this link: '+location.origin+location.pathname+'?challenge=1'}}}
 $('startDaily').addEventListener('click',startQuiz);$('startDaily2').addEventListener('click',startQuiz);$('dailyCard').addEventListener('click',e=>{e.preventDefault();startQuiz()});
