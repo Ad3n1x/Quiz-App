@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: qz-live-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: qz-live/backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/_healthcheck
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
