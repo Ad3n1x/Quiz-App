@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { api, ws } from '@appdeploy/client';
+import { api, ws } from './api';
 import {
   ArrowLeft,
   ArrowRight,
