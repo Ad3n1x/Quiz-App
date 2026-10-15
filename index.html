@@ -43,6 +43,23 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:480px){.wrap{width:calc(100% - 24px)}.topbar{gap:10px;flex-wrap:wrap}.brand{font-size:1.15rem}.pill{font-size:.72rem;padding:7px 10px}.hero{padding-top:28px}.actions{display:grid;grid-template-columns:1fr}.actions .btn{width:100%}.hero-card{padding:18px;border-radius:20px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
+
+/* Premium editorial polish: deep ink, restrained mint, precise type and luminous surfaces. */
+:root{--bg:#080d18;--panel:#101a2b;--panel2:#152238;--line:#2a3a52;--text:#f5f7fc;--muted:#a8b5ca;--lime:#a4f2d6;--purple:#8bc8f4;--gold:#e7c98b}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 72% -12%,#263b56 0,transparent 42%),radial-gradient(ellipse at 0% 60%,#112b2c 0,transparent 35%),var(--bg)}
+.hero h1{letter-spacing:-.065em;line-height:.99}
+.hero-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#1b2a40 0%,#111a2a 64%,#0e1624 100%);border:1px solid #b8cde528;box-shadow:0 30px 90px #0008,inset 0 1px #ffffff0d}
+.hero-card:before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,#a4f2d688,#8bc8f488,transparent)}
+.daily-card,.feature-card,.stat-card,.leaderboard-card,.panel-card{background:linear-gradient(145deg,#152238,#101827)!important;border:1px solid #b8cde51d!important;box-shadow:0 12px 34px #0003,inset 0 1px #ffffff06;transition:transform .2s,border-color .2s,box-shadow .2s}
+.daily-card:hover,.feature-card:hover,.stat-card:hover,.leaderboard-card:hover,.panel-card:hover{transform:translateY(-3px);border-color:#a4f2d655!important;box-shadow:0 20px 42px #0005,inset 0 1px #ffffff08}
+.brand-mark{background:linear-gradient(135deg,#b9f6df,#8bc8f4)!important;color:#09121e!important}
+.pill{border:1px solid #3a4b64;background:#111c2d;color:#d4dfef}
+.primary{background:linear-gradient(135deg,#b9f6df,#8bc8f4);color:#09121e;box-shadow:0 8px 28px #8bc8f41e}
+.secondary{background:#162238;border:1px solid #394b65;color:#f5f7fc}
+.stat-card strong,.stat-value{font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+button,a,.daily-card,.feature-card{ -webkit-tap-highlight-color:transparent}
+@media(hover:hover){.primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px #8bc8f42b}.secondary:hover{border-color:#a4f2d688}}
+
 </style>
 </head>
 <body>
