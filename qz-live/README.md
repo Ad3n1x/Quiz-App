@@ -1,18 +1,25 @@
-# QZ Live
+# QZ Live — GitHub + Vercel + Render
 
-Source snapshot for the QZ Live multiplayer quiz arena.
+The frontend lives in this directory and is built with Vite + React. The API and realtime gateway live in `backend/` and run on Render. PostgreSQL persists live rooms.
 
-## Live play
+## Vercel frontend
+- Vercel project root directory: `qz-live`
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variable: `VITE_API_URL=https://YOUR-RENDER-WEB-SERVICE.onrender.com`
 
-Open the active real-time app: https://qz-live-cu6x0l.v2.appdeploy.ai/
+## Render backend
+- Runtime: Node
+- Root directory: `qz-live/backend`
+- Build command: `npm install`
+- Start command: `npm start`
+- Health check: `/api/_healthcheck`
+- Environment variables: `DATABASE_URL` (Render PostgreSQL connection string), `FRONTEND_ORIGIN` (Vercel app URL).
 
-## Runtime note
+The server creates the `qz_rooms` table on startup. The API has an in-memory fallback for local development, but production should set `DATABASE_URL` so room state survives restarts.
 
-The live multiplayer version uses AppDeploy's `@appdeploy/client`, `@appdeploy/sdk`, database, and WebSocket runtime. This folder preserves the frontend/backend source in GitHub; running the complete multiplayer experience on another host requires replacing those platform services with equivalent API, persistence, and realtime infrastructure.
-
-## Features
-
-- PIN-based host/player rooms
-- Live room updates and standings
-- Editable quiz questions
-- Speed scoring and the final 2× Clutch Round
+## Gameplay preserved
+- Six-digit room PINs and shareable invite links
+- Live player updates and leaderboards
+- Editable question set and per-question timer
+- Speed-based scoring and final 2× Clutch Round
