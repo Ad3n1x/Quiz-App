@@ -27,6 +27,22 @@ body{background:radial-gradient(ellipse at 78% -5%,#30234b 0,transparent 35%),ra
 .daily-panel{position:relative;overflow:hidden;margin:48px 0;background:linear-gradient(110deg,#d8ff5f,#b9ed49);box-shadow:0 22px 60px #d8ff5f12}.daily-panel:after{content:"QZ";position:absolute;right:8%;top:50%;transform:translateY(-50%);font-size:clamp(6rem,14vw,12rem);font-weight:1000;letter-spacing:-.1em;color:#1010180b;pointer-events:none}.daily-panel>*{position:relative;z-index:1}
 .footer{border-top-color:#ffffff12}.overlay{background:#07080ce8}.quiz-modal{background:linear-gradient(145deg,#1b1d28,#13151c);border-color:#ffffff1a;box-shadow:0 30px 100px #0009}.option{min-height:52px;background:#20222e;border-color:#ffffff18;transition:transform .16s,border-color .16s,background .16s}.option:hover:not(:disabled){transform:translateY(-1px);background:#292b39}.option.correct{background:#193c2a}.option.wrong{background:#452326}.result-card{background:linear-gradient(135deg,#28213b,#171720);border-radius:20px}
 button:focus-visible,a:focus-visible{outline-offset:4px}@media(max-width:760px){.hero{padding-top:38px}.hero-card{transform:none}.quiz-card{min-height:180px}}@media(max-width:470px){.hero{padding-top:28px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:12px 10px}.stat strong{font-size:1.05rem}.stat span{font-size:.68rem}.quiz-card{min-height:155px}.daily-panel:after{right:4%;top:auto;bottom:-12px;transform:none;font-size:6rem}}
+
+/* QZ visual refresh: unified cool-toned palette and sharper, more consistent components. */
+:root{--bg:#0b1020;--panel:#121b2d;--panel2:#19263b;--line:#2b3b55;--text:#f4f7ff;--muted:#a8b5ca;--lime:#8cf2cf;--purple:#82b8ff;--radius:20px;accent-color:var(--lime)}
+body{background:radial-gradient(ellipse at 82% 0%,#1d3150 0,transparent 38%),radial-gradient(ellipse at 5% 60%,#142a36 0,transparent 35%),var(--bg)}
+::selection{background:#8cf2cf55;color:#fff}.topbar{gap:14px}.brand-mark{box-shadow:0 6px 20px #8cf2cf25}
+.pill{background:#101a2b;color:#c1cde0;border-color:#354661}.hero{gap:clamp(22px,4vw,44px)}
+.hero-card{background:linear-gradient(145deg,#1a2940,#111827 78%);border-color:#344760;box-shadow:0 28px 85px #02061775}
+.btn{min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.primary{background:linear-gradient(135deg,#9bf4d7,#79c9ff);color:#081522;box-shadow:0 8px 24px #79c9ff1b}
+.secondary{background:#17243a;border:1px solid #354761;color:var(--text)}.primary:hover,.secondary:hover{filter:brightness(1.08)}
+button,input,select,textarea{font:inherit;max-width:100%}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #8cf2cf!important;outline-offset:3px}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:36px 0 26px}.hero-card{transform:none}.wrap{width:min(100% - 28px,1100px)}h1{letter-spacing:-.055em}.topbar{padding:16px 0}}
+@media(max-width:480px){.wrap{width:calc(100% - 24px)}.topbar{gap:10px;flex-wrap:wrap}.brand{font-size:1.15rem}.pill{font-size:.72rem;padding:7px 10px}.hero{padding-top:28px}.actions{display:grid;grid-template-columns:1fr}.actions .btn{width:100%}.hero-card{padding:18px;border-radius:20px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
