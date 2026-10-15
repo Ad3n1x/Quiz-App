@@ -98,7 +98,7 @@ async function route(req, res) {
       await saveRoom(room);
       return res.json({ room, player });
     }
-    const match = path.match(/^\\/api\\/rooms\\/([^/]+)\\/(start|answer|advance)$/);
+    const match = path.match(/^\/api\/rooms\/([^/]+)\/(start|answer|advance)$/);
     if (method === 'POST' && match) {
       const room = await getRoom(decodeURIComponent(match[1]));
       if (!room) return fail(res, 404, 'Room not found.');
