@@ -19,7 +19,25 @@
     .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.btn{border:1px solid transparent;border-radius:12px;padding:12px 16px;font-weight:800;transition:transform .15s,background .15s}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--accent);color:#07151b;flex:1}.btn-secondary{background:#1c2a40;border-color:#344862;color:var(--text)}.btn-danger{background:#271823;border-color:#593746;color:#ffb4b4}.btn:disabled{opacity:.6;cursor:wait;transform:none}.status{display:none;margin-top:16px;padding:14px;border:1px solid #315b51;background:#102b27;border-radius:12px;color:#c8ffea;line-height:1.5;font-size:14px}.status.show{display:block}.status.error{border-color:#69424a;background:#2c1920;color:#ffc5c5}.token{font-weight:900;font-size:23px;letter-spacing:.08em;display:block;margin:8px 0;overflow-wrap:anywhere}.token-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.token-actions button{padding:8px 12px;font-size:12px}.note{color:var(--muted);font-size:12px;line-height:1.6;margin-top:14px}.required{color:var(--accent)}.footer{text-align:center;color:#71829a;font-size:12px;margin-top:24px}
     @media(max-width:800px){.layout{grid-template-columns:1fr}.side{position:static;grid-template-columns:1fr 1fr}.side-card:last-child{grid-column:1/-1}}@media(max-width:560px){body{padding:16px 11px 40px}.topbar{margin-bottom:24px}.brand-mark{width:36px;height:36px}.back{font-size:12px;padding:9px 10px}.side{grid-template-columns:1fr}.side-card:last-child{grid-column:auto}.settings-grid,.options-grid,.solution-grid{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}.question-card{padding:13px}.actions .btn{width:100%}.hero h1{font-size:34px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-  </style>
+  
+/* PREMIUM QZ finish — refined depth, deliberate spacing, and understated metallic accents. */
+:root{--qz-gold:#e7c98b;--qz-mint:#a4f2d6;--qz-ink:#080d18;--qz-surface:#101a2b;--qz-stroke:#31425c}
+body.qz-legacy{background:radial-gradient(ellipse at 50% -18%,#243b57 0,transparent 48%),radial-gradient(ellipse at 0% 85%,#132c30 0,transparent 36%),#080d18!important;color:#f5f7fc!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;letter-spacing:.005em}
+body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{background:linear-gradient(155deg,#152238f5 0%,#0e1727fa 70%)!important;border:1px solid #b8cde51c!important;border-radius:22px!important;box-shadow:0 30px 90px #0008,0 1px 0 #ffffff08 inset!important}
+body.qz-legacy h1{letter-spacing:-.055em!important;line-height:1.04!important}
+body.qz-legacy h2,body.qz-legacy h3{letter-spacing:-.035em!important}
+body.qz-legacy button,body.qz-legacy input[type=submit],body.qz-legacy input[type=button]{background:linear-gradient(135deg,#b9f6df,#8bc8f4)!important;border:1px solid #d7ffef!important;color:#09121e!important;border-radius:12px!important;box-shadow:0 8px 25px #0003,0 0 0 1px #ffffff0a inset!important;font-weight:750!important}
+body.qz-legacy button:hover,body.qz-legacy input[type=submit]:hover,body.qz-legacy input[type=button]:hover{transform:translateY(-1px);filter:brightness(1.05)!important;box-shadow:0 14px 32px #0005,0 0 26px #8bc8f414!important}
+body.qz-legacy input:not([type=radio]):not([type=checkbox]),body.qz-legacy textarea,body.qz-legacy select{background:#090f1c!important;border:1px solid #3a4c66!important;border-radius:12px!important;color:#f5f7fc!important;box-shadow:inset 0 1px 2px #0005!important}
+body.qz-legacy .question-block,body.qz-legacy .option,body.qz-legacy li{border-radius:13px!important}
+body.qz-legacy .question-block{background:linear-gradient(145deg,#18263b,#121c2d)!important;border-color:#ffffff16!important}
+body.qz-legacy .selected{background:#203b48!important;border-color:#a4f2d6!important}
+body.qz-legacy .correct{background:#12372e!important;border-color:#5ad8a9!important}
+body.qz-legacy .wrong{background:#411f2b!important;border-color:#ff8e9c!important}
+body.qz-legacy ::selection{background:#a4f2d655;color:#fff}
+@media(min-width:1000px){body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{backdrop-filter:blur(18px)}}
+
+</style>
 </head>
 <body class="qz-legacy">
   <div class="shell">
