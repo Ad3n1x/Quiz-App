@@ -36,3 +36,24 @@ body.qz-legacy input:not([type=radio]):not([type=checkbox]),body.qz-legacy texta
 body.qz-legacy input:focus,body.qz-legacy textarea:focus,body.qz-legacy select:focus{border-color:var(--qz-lime)!important;outline:none!important}
 body.qz-legacy button:focus-visible,body.qz-legacy a:focus-visible,body.qz-legacy input:focus-visible,body.qz-legacy select:focus-visible,body.qz-legacy textarea:focus-visible{outline:2px solid var(--qz-lime)!important;outline-offset:4px!important}
 @media(max-width:480px){body.qz-legacy{padding:12px!important}body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{padding:18px!important;border-radius:18px!important}body.qz-legacy button{width:100%;max-width:100%}}
+/* QZ global design-system pass: consistent surfaces, readable controls, and resilient layouts. */
+:root{--qz-bg:#0b1020;--qz-panel:#111a2c;--qz-line:#293750;--qz-text:#f4f7ff;--qz-muted:#a8b5ca;--qz-lime:#8cf2cf;--qz-blue:#82b8ff;--qz-danger:#ff8f9a;accent-color:var(--qz-lime);scrollbar-color:#40516b #0b1020}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body.qz-legacy{background:radial-gradient(ellipse at 12% 0%,#17334a 0,transparent 36%),radial-gradient(ellipse at 100% 10%,#242044 0,transparent 30%),var(--qz-bg)!important;color:var(--qz-text)!important}
+body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{background:linear-gradient(145deg,#162239f5,#101827f7)!important;border:1px solid #9bb8df24!important;box-shadow:0 24px 70px #02061770,inset 0 1px #ffffff08!important}
+body.qz-legacy h1,body.qz-legacy h2,body.qz-legacy h3,body.qz-legacy h4{letter-spacing:-.035em!important}
+body.qz-legacy p{color:var(--qz-muted)!important}
+body.qz-legacy a{color:#a8d0ff!important;text-underline-offset:3px}
+body.qz-legacy button,body.qz-legacy input[type=submit],body.qz-legacy input[type=button]{background:linear-gradient(135deg,#9bf4d7,#79c9ff)!important;border:1px solid #c6ffed!important;color:#081522!important;font-weight:800!important;box-shadow:0 8px 22px #060d1c38!important}
+body.qz-legacy button:hover,body.qz-legacy input[type=submit]:hover,body.qz-legacy input[type=button]:hover{filter:brightness(1.06)!important;box-shadow:0 12px 28px #68d9c326!important}
+body.qz-legacy input:not([type=radio]):not([type=checkbox]),body.qz-legacy textarea,body.qz-legacy select{background:#0b1322!important;border-color:#3a4d69!important;color:#f4f7ff!important}
+body.qz-legacy input::placeholder,body.qz-legacy textarea::placeholder{color:#8b9ab0!important;opacity:1}
+body.qz-legacy li,body.qz-legacy .option,body.qz-legacy .answer-option{overflow-wrap:anywhere;transition:background .16s,border-color .16s,transform .16s}
+body.qz-legacy li:hover,body.qz-legacy .option:hover,body.qz-legacy .answer-option:hover{border-color:#82b8ff!important}
+body.qz-legacy .selected{background:#17334a!important;border-color:#8cf2cf!important;color:#f4f7ff!important}
+body.qz-legacy .correct{background:#143a32!important;border-color:#59d6aa!important;color:#d8fff0!important}
+body.qz-legacy .wrong{background:#48232f!important;border-color:#ff8f9a!important;color:#ffe5e8!important}
+body.qz-legacy table{border-radius:12px;overflow:hidden}body.qz-legacy th{color:#dbe9ff;background:#1a2940}body.qz-legacy td{color:#d4deee}
+body.qz-legacy hr{border:0;border-top:1px solid var(--qz-line);width:100%}body.qz-legacy :disabled{cursor:not-allowed!important;opacity:.55}
+@media(max-width:720px){body.qz-legacy{gap:14px!important}body.qz-legacy .container,body.qz-legacy #display,body.qz-legacy #addQuiz,body.qz-legacy .quiz-container,body.qz-legacy #quiz-container,body.qz-legacy main{width:100%!important;max-width:100%!important;margin:0 auto!important}body.qz-legacy a{max-width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body.qz-legacy *,body.qz-legacy *::before,body.qz-legacy *::after{transition:none!important;animation:none!important}}
