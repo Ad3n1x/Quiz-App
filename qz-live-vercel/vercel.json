@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "destination": "https://qz-live-cu6x0l.v2.appdeploy.ai/$1",
+      "destination": "https://qz-live.vercel.app/$1",
       "permanent": false
     }
   ]
