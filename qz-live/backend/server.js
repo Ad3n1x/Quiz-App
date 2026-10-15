@@ -20,6 +20,7 @@ const pool = process.env.DATABASE_URL ? new Pool({
 }) : null;
 const memoryRooms = new Map();
 const subscriptions = new Map();
+const memoryDailyScores = new Map();
 async function init() {
   if (pool) await pool.query(`
     CREATE TABLE IF NOT EXISTS qz_rooms (
@@ -30,6 +31,8 @@ async function init() {
       created_at BIGINT NOT NULL
     );
     CREATE INDEX IF NOT EXISTS qz_rooms_code_status_idx ON qz_rooms(code, status);
+    CREATE TABLE IF NOT EXISTS qz_daily_scores (day TEXT NOT NULL, player_id TEXT NOT NULL, name TEXT NOT NULL, score INTEGER NOT NULL CHECK (score >= 0 AND score <= 5), updated_at BIGINT NOT NULL, PRIMARY KEY (day, player_id));
+    CREATE INDEX IF NOT EXISTS qz_daily_scores_rank_idx ON qz_daily_scores(day, score DESC, updated_at ASC);
   `);
 }
 async function saveRoom(room) {
@@ -61,6 +64,38 @@ async function route(req, res) {
   try {
     const { method, path } = req;
     if (method === 'GET' && path === '/api/_healthcheck') return res.json({ message: 'Success' });
+    if (method === 'GET' && path === '/api/daily/leaderboard') {
+      const day = String(req.query.day || new Date().toISOString().slice(0, 10));
+      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(day)) return fail(res, 400, 'Invalid challenge date.');
+      let entries;
+      if (pool) {
+        const result = await pool.query('SELECT name, score, updated_at FROM qz_daily_scores WHERE day=$1 ORDER BY score DESC, updated_at ASC LIMIT 50', [day]);
+        entries = result.rows.map(r => ({ name: r.name, score: Number(r.score), updated_at: Number(r.updated_at) }));
+      } else {
+        entries = [...memoryDailyScores.values()].filter(x => x.day === day).sort((a,b) => b.score-a.score || a.updated_at-b.updated_at).slice(0,50);
+      }
+      return res.json({ day, entries });
+    }
+    if (method === 'POST' && path === '/api/daily/score') {
+      const day = String(req.body?.day || '');
+      const player_id = String(req.body?.player_id || '').trim().slice(0, 100);
+      const name = cleanName(req.body?.name).slice(0, 18);
+      const score = Number(req.body?.score);
+      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(day) || day !== new Date().toISOString().slice(0,10)) return fail(res, 400, 'Scores can only be submitted for today’s challenge.');
+      if (!player_id || !name || !Number.isInteger(score) || score < 0 || score > 5) return fail(res, 400, 'Enter a leaderboard name and a score from 0 to 5.');
+      const updated_at = Date.now();
+      let best_score = score;
+      if (pool) {
+        const result = await pool.query('INSERT INTO qz_daily_scores(day, player_id, name, score, updated_at) VALUES($1,$2,$3,$4,$5) ON CONFLICT(day,player_id) DO UPDATE SET name=EXCLUDED.name, score=GREATEST(qz_daily_scores.score,EXCLUDED.score), updated_at=CASE WHEN EXCLUDED.score > qz_daily_scores.score THEN EXCLUDED.updated_at ELSE qz_daily_scores.updated_at END RETURNING score', [day,player_id,name,score,updated_at]);
+        best_score = Number(result.rows[0].score);
+      } else {
+        const key = day + ':' + player_id;
+        const prior = memoryDailyScores.get(key);
+        best_score = Math.max(prior?.score || 0, score);
+        memoryDailyScores.set(key, { day, player_id, name, score: best_score, updated_at: prior && prior.score >= score ? prior.updated_at : updated_at });
+      }
+      return res.json({ ok: true, best_score });
+    }
     if (method === 'GET' && path.startsWith('/api/rooms/')) {
       const id = decodeURIComponent(path.slice('/api/rooms/'.length));
       const room = await getRoom(id);
