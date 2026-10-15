@@ -32,10 +32,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: |
-            qz-live/package.json
-            qz-live/backend/package.json
 
       - name: Install frontend dependencies
         working-directory: qz-live
@@ -56,12 +52,13 @@ jobs:
   deploy-render:
     name: Trigger Render deployment
     needs: verify
-    if: github.event_name != 'pull_request' && secrets.RENDER_API_KEY != ''
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
     steps:
       - name: Deploy QZ Live API
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        if: env.RENDER_API_KEY != ''
         run: |
           curl --fail-with-body --silent --show-error \
             --request POST \
@@ -70,8 +67,7 @@ jobs:
             --header "Accept: application/json"
 
       - name: Deploy QZ Live frontend
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        if: env.RENDER_API_KEY != ''
         run: |
           curl --fail-with-body --silent --show-error \
             --request POST \
