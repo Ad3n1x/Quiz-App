@@ -136,10 +136,6 @@ function App() {
   useEffect(() => {
     isHostRef.current = isHost;
   }, [isHost]);
-  const syncRoom = useCallback(async (id: string) => {
-    const res = await api.get('/api/rooms/' + encodeURIComponent(id));
-    setRoom(res.data.room);
-  }, []);
   const connectRoom = useCallback(async (r: Room) => {
     if (!connRef.current) {
       const conn = ws.connect();
