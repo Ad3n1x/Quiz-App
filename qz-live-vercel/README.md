@@ -1,3 +1,3 @@
-# QZ Live Vercel entrypoint
+# QZ Live Vercel project
 
-This Vercel project forwards visitors to the active QZ Live multiplayer runtime so PIN rooms and live WebSocket updates continue to work. The application source is stored in `../qz-live/`.
+This project now points to the Vite + React frontend in `../qz-live/`. Configure the Vercel project root directory as `qz-live`; the old redirect to the retired AppDeploy runtime has been removed.
