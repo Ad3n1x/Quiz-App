@@ -1,123 +1,96 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz App</title>
-  <link rel="icon" type="image/x-icon" href="./logo.png">
-
-
-  <style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-}
-
-
-
-    .container {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    }
-
-    h1 {
-      margin-bottom: 30px;
-      font-size: 32px;
-      letter-spacing: 1px;
-    }
-
-    .quiz-btn {
-      display: block;
-      width: 250px;
-      margin: 15px auto;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
-      background: #1e90ff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-decoration: none;
-    }
-
-    .quiz-btn:hover {
-      background: #63b3ff;
-      transform: scale(1.05);
-    }
-
-    .quiz-btn:active {
-      transform: scale(0.98);
-    }
-
-    a {
-      color: white;
-      text-decoration: none;
-      display: block;
-    }
-    footer {
-      margin-top: 20px;
-      font-size: 25px;
-      color: #f0f0f0;
-      font-style: oblique;
-    }
-   header {
-  padding: 15px 0;
-  color: white;
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 1px;
-  text-transform: none;
-  background: transparent;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
-}
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101018">
+<meta name="description" content="Quick quizzes, daily challenges and friendly score battles. Play QZ and challenge someone to beat your score.">
+<meta property="og:title" content="QZ — Think fast. Prove it.">
+<meta property="og:description" content="Take today's quick quiz, see your score and challenge a friend.">
+<title>QZ — Think fast. Prove it.</title>
+<link rel="icon" type="image/x-icon" href="./logo.png">
+<style>
+:root{color-scheme:dark;--bg:#0d0d13;--panel:#171720;--panel2:#20202b;--line:#30303c;--text:#f5f5fa;--muted:#a5a5b5;--lime:#d8ff5f;--purple:#a78bfa;--radius:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0%,#292044 0,transparent 38%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid var(--lime);outline-offset:4px}.wrap{width:min(1100px,calc(100% - 36px));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 0}.brand{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:900;letter-spacing:-.06em}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--lime);color:#111;font-weight:1000;letter-spacing:-.08em}.pill{border:1px solid var(--line);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:.78rem}.hero{padding:55px 0 35px;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--lime);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.dot{width:7px;height:7px;background:var(--lime);border-radius:50%;box-shadow:0 0 15px var(--lime)}h1{font-size:clamp(3rem,7vw,5.8rem);line-height:.96;letter-spacing:-.075em;margin:18px 0 20px;max-width:700px}h1 span{color:var(--lime)}.hero-copy{color:var(--muted);font-size:1.08rem;max-width:510px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}.btn{border:0;border-radius:13px;padding:13px 18px;font-weight:850;transition:transform .18s,filter .18s}.btn:hover{transform:translateY(-2px);filter:brightness(1.07)}.primary{background:var(--lime);color:#151515}.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}.hero-card{background:linear-gradient(145deg,#222130,#15151d 75%);border:1px solid #393447;border-radius:28px;padding:24px;transform:rotate(1.2deg);box-shadow:0 25px 80px #0005}.card-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}.today-tag{background:#33304a;color:#d9caff;padding:6px 9px;border-radius:8px;font-weight:800}.question-preview{font-size:1.45rem;font-weight:850;line-height:1.2;margin:24px 0 17px}.answer-preview{padding:12px 14px;border:1px solid #3b3947;border-radius:12px;margin-top:9px;color:#d5d4df;font-size:.9rem}.answer-preview:first-of-type{border-color:var(--lime);background:#d8ff5f12}.tiny{font-size:.78rem;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 48px}.stat{background:#14141c;border:1px solid var(--line);border-radius:16px;padding:15px}.stat strong{display:block;font-size:1.4rem;letter-spacing:-.04em}.stat span{color:var(--muted);font-size:.78rem}.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:0 0 18px}.section-head h2{font-size:1.6rem;letter-spacing:-.05em;margin:0}.section-head p{color:var(--muted);margin:5px 0 0;font-size:.9rem}.quiz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quiz-card{display:flex;flex-direction:column;align-items:flex-start;min-height:190px;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:20px;transition:border-color .2s,transform .2s}.quiz-card:hover{border-color:#77718d;transform:translateY(-3px)}.quiz-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:#28263a;font-size:1.3rem;margin-bottom:16px}.quiz-card h3{margin:0 0 5px;font-size:1.05rem}.quiz-card p{color:var(--muted);font-size:.85rem;margin:0 0 18px}.quiz-card .arrow{margin-top:auto;color:var(--lime);font-weight:850;font-size:.88rem}.daily-panel{margin:42px 0;background:linear-gradient(105deg,#d8ff5f 0%,#d8ff5f 65%,#c3f344 100%);color:#151515;border-radius:24px;padding:26px;display:flex;align-items:center;justify-content:space-between;gap:20px}.daily-panel h2{margin:4px 0;font-size:1.7rem;letter-spacing:-.05em}.daily-panel p{margin:0;color:#363c1d;font-size:.9rem}.daily-panel .btn{background:#151515;color:white;white-space:nowrap}.footer{display:flex;justify-content:space-between;gap:15px;padding:25px 0 35px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem;margin-top:45px}.overlay{position:fixed;inset:0;background:#08080ddf;backdrop-filter:blur(10px);z-index:5;display:none;overflow:auto;padding:20px;align-items:center;justify-content:center}.overlay.open{display:flex}.quiz-modal{width:min(600px,100%);background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,5vw,32px);box-shadow:0 25px 100px #0009}.quiz-progress{height:6px;background:#33333f;border-radius:10px;overflow:hidden;margin:17px 0 25px}.quiz-progress span{display:block;height:100%;width:0;background:var(--lime);transition:width .2s}.quiz-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.82rem}.quiz-modal h2{font-size:clamp(1.4rem,4vw,2rem);line-height:1.2;letter-spacing:-.04em}.options{display:grid;gap:10px}.option{padding:14px 15px;border:1px solid var(--line);background:#20202a;color:var(--text);text-align:left;border-radius:12px}.option:hover:not(:disabled){border-color:var(--purple)}.option.correct{background:#193c2a;border-color:#43d18c}.option.wrong{background:#452326;border-color:#ff6b75}.modal-actions{display:flex;justify-content:space-between;gap:12px;margin-top:22px}.modal-actions .btn{flex:1}.result-score{font-size:4rem;font-weight:950;letter-spacing:-.08em;color:var(--lime);line-height:1.1}.result-card{background:linear-gradient(135deg,#28213b,#171720);border:1px solid #51436e;border-radius:18px;padding:20px;margin:20px 0}.result-card small{color:var(--muted)}.challenge-banner{display:none;margin:0 auto 12px;padding:12px 15px;border:1px solid #6c5c9d;background:#211b32;border-radius:14px;color:#e5d9ff}.challenge-banner.show{display:block}.notice{min-height:1.4em;color:var(--muted);font-size:.82rem;margin-top:10px}.hidden{display:none!important}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:32px}.hero-card{transform:none}.quiz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.daily-panel{align-items:flex-start;flex-direction:column}.daily-panel .btn{width:100%}.hero-copy{font-size:1rem}}
+@media(max-width:470px){.wrap{width:min(100% - 24px,1100px)}.topbar{padding:15px 0}.hero{padding:25px 0}.hero-card{padding:18px}.stats{gap:8px;margin-bottom:35px}.stat{padding:11px}.stat strong{font-size:1.15rem}.stat span{font-size:.7rem}.quiz-grid{grid-template-columns:1fr}.quiz-card{min-height:150px}.section-head{align-items:flex-start;flex-direction:column}.footer{flex-direction:column}.actions .btn{flex:1}.overlay{padding:10px}.quiz-modal{border-radius:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
 </head>
-
 <body>
-  <header>
-    Quiz App
-  </header>
-  <div class="container">
-    <h1>Select a Quiz</h1>
-    <a href="./math.html">
-      <button class="quiz-btn">Math Quiz</button>
-    </a>
-    <a href="phyquiz.html">
-      <button class="quiz-btn">Physics Quiz</button>
-    </a>
-
-    <a href="chemquiz.html">
-      <button class="quiz-btn">Chemistry Quiz</button>
-    </a>
-
-    <a href="customquiz.html">
-      <button class="quiz-btn">Create Custom Quiz</button>
-    </a>
-    <a href="anscustom.html">
-      <button class="quiz-btn">Take Custom Quiz</button>
-    </a>
+<div class="wrap">
+<header class="topbar"><a class="brand" href="./index.html" aria-label="QZ home"><span class="brand-mark">QZ</span><span>QZ <span style="color:var(--muted);font-weight:600">/ PLAY SMART</span></span></a><span class="pill">⚡ Free to play</span></header>
+<div id="challengeBanner" class="challenge-banner">🏁 <strong>You've been challenged!</strong> Take today's quiz and see if you can beat their score.</div>
+<main>
+<section class="hero">
+<div><div class="eyebrow"><span class="dot"></span> Small quiz. Big brain energy.</div><h1>Think fast.<br><span>Prove it.</span></h1><p class="hero-copy">A quick quiz break that can turn into a friendly score battle. Test what you know, find your weak spots, and challenge someone to beat your result.</p><div class="actions"><button class="btn primary" id="startDaily">Play today's challenge ↗</button><button class="btn secondary" id="shareSite">Challenge a friend</button></div><p class="tiny" style="margin-top:14px">No account. No long setup. Just play.</p></div>
+<div class="hero-card" aria-label="Preview of a quiz question"><div class="card-top"><span>DAILY CHALLENGE</span><span class="today-tag" id="dateTag">TODAY</span></div><div class="question-preview">How sharp is your general knowledge?</div><div class="answer-preview">A. Test yourself in 5 quick questions</div><div class="answer-preview">B. Get your score instantly</div><div class="answer-preview">C. Send the challenge to a friend</div><p class="tiny" style="margin:18px 0 0">A new set rotates each day. Your best score stays on this device.</p></div>
+</section>
+<section class="stats" aria-label="Your progress"><div class="stat"><strong id="bestScore">—</strong><span>Best daily score</span></div><div class="stat"><strong id="playedCount">0</strong><span>Challenges played</span></div><div class="stat"><strong id="perfectCount">0</strong><span>Perfect scores</span></div></section>
+<section><div class="section-head"><div><h2>Pick your arena</h2><p>Choose a subject and test yourself.</p></div><span class="pill">5 ways to play</span></div>
+<div class="quiz-grid">
+<a class="quiz-card" href="./math.html"><span class="quiz-icon">➗</span><h3>Math</h3><p>From warm-up sums to harder problems.</p><span class="arrow">Choose difficulty ↗</span></a>
+<a class="quiz-card" href="./phyquiz.html"><span class="quiz-icon">⚡</span><h3>Physics</h3><p>Put your science instincts to work.</p><span class="arrow">Choose difficulty ↗</span></a>
+<a class="quiz-card" href="./chemquiz.html"><span class="quiz-icon">🧪</span><h3>Chemistry</h3><p>Elements, reactions and concepts.</p><span class="arrow">Choose difficulty ↗</span></a>
+<a class="quiz-card" href="./customquiz.html"><span class="quiz-icon">🛠️</span><h3>Build a quiz</h3><p>Create your own questions to test others.</p><span class="arrow">Create a quiz ↗</span></a>
+<a class="quiz-card" href="./anscustom.html"><span class="quiz-icon">🎯</span><h3>Take a custom quiz</h3><p>Enter the challenge someone made for you.</p><span class="arrow">Play a custom quiz ↗</span></a>
+<a class="quiz-card" href="#daily" id="dailyCard"><span class="quiz-icon">🏆</span><h3>Daily challenge</h3><p>Five quick questions. One score to share.</p><span class="arrow">Start today's set ↗</span></a>
+</div></section>
+<section class="daily-panel" id="daily"><div><div class="eyebrow" style="color:#27310e">THE DAILY FIVE</div><h2>Got 60 seconds?</h2><p>Take today's set, then pass the challenge to the next person.</p></div><button class="btn" id="startDaily2">I'm in — play now ↗</button></section>
+</main>
+<footer class="footer"><span>© <span id="year"></span> QZ by AD3NIX</span><span>Made for curious minds. Built to be shared.</span></footer>
 </div>
-   <footer>
-  <p>Made by AD3NIX</p>
-</footer>
+<div class="overlay" id="quizOverlay" role="dialog" aria-modal="true" aria-labelledby="questionTitle">
+<div class="quiz-modal"><div class="quiz-meta"><span id="questionCounter">QUESTION 1 OF 5</span><span id="scoreLive">0 points</span></div><div class="quiz-progress"><span id="progressFill"></span></div><h2 id="questionTitle">Question</h2><div class="options" id="options"></div><div class="modal-actions"><button class="btn secondary" id="quitQuiz">Exit</button><button class="btn primary" id="nextQuestion" disabled>Next question →</button></div><p class="notice" id="quizNotice" aria-live="polite"></p></div>
+</div>
+<div class="overlay" id="resultOverlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+<div class="quiz-modal"><div class="eyebrow"><span class="dot"></span> DAILY CHALLENGE COMPLETE</div><h2 id="resultTitle">Your result is in.</h2><div class="result-card"><small>YOUR SCORE</small><div class="result-score" id="finalScore">0/5</div><p id="resultMessage">Nice work.</p><small id="resultRank">Keep practising.</small></div><div class="actions"><button class="btn primary" id="shareResult">Share my score ↗</button><button class="btn secondary" id="copyChallenge">Challenge a friend</button><button class="btn secondary" id="closeResult">Back to QZ</button></div><p class="notice" id="shareNotice" aria-live="polite"></p></div>
+</div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const dayKey=new Date().toISOString().slice(0,10);
+$('year').textContent=new Date().getFullYear();
+$('dateTag').textContent=new Date().toLocaleDateString(undefined,{month:'short',day:'numeric'}).toUpperCase();
+const bank=[
+{q:'Which Nigerian city is known as the Centre of Excellence?',a:['Abuja','Lagos','Ibadan','Enugu'],correct:1,why:'Lagos is widely known by that nickname.'},
+{q:'Which planet is famous for its rings?',a:['Mars','Venus','Saturn','Mercury'],correct:2,why:'Saturn has the most prominent ring system.'},
+{q:'What is the chemical symbol for gold?',a:['Ag','Au','Go','Gd'],correct:1,why:'Au comes from the Latin word aurum.'},
+{q:'How many sides does a hexagon have?',a:['Five','Six','Seven','Eight'],correct:1,why:'A hexagon has six sides.'},
+{q:'Which organ pumps blood around the human body?',a:['Lungs','Liver','Heart','Kidneys'],correct:2,why:'The heart circulates blood through the body.'},
+{q:'What is the largest ocean on Earth?',a:['Atlantic','Indian','Arctic','Pacific'],correct:3,why:'The Pacific Ocean is the largest.'},
+{q:'Which gas do plants absorb during photosynthesis?',a:['Oxygen','Carbon dioxide','Hydrogen','Nitrogen'],correct:1,why:'Plants use carbon dioxide and water to make sugars.'},
+{q:'What is 12 × 8?',a:['84','92','96','108'],correct:2,why:'12 groups of 8 equal 96.'},
+{q:'What is the capital of Oyo State?',a:['Ogbomoso','Ibadan','Oyo','Iseyin'],correct:1,why:'Ibadan is the capital of Oyo State.'},
+{q:'Which is the closest star to Earth?',a:['Sirius','Polaris','The Sun','Alpha Centauri'],correct:2,why:'The Sun is our nearest star.'},
+{q:'Which Nigerian currency is used today?',a:['Cedi','Naira','Dalasi','Shilling'],correct:1,why:'Nigeria uses the naira.'},
+{q:'At standard atmospheric pressure, water boils at?',a:['50°C','90°C','100°C','120°C'],correct:2,why:'The boiling point is 100°C at 1 atmosphere.'},
+{q:'Which language runs natively in web browsers?',a:['Python','Java','JavaScript','C++'],correct:2,why:'JavaScript is the standard browser scripting language.'},
+{q:'How many minutes are in two hours?',a:['100','110','120','140'],correct:2,why:'Two times 60 minutes equals 120.'},
+{q:'Which instrument measures temperature?',a:['Barometer','Thermometer','Ammeter','Voltmeter'],correct:1,why:'A thermometer measures temperature.'}
+];
+let questions=[],index=0,score=0,answered=false,results=[];
+function dailySet(){const n=Number(dayKey.replaceAll('-',''));const start=n%bank.length;return Array.from({length:5},(_,i)=>bank[(start+i*3)%bank.length]);}
+function readStats(){try{return JSON.parse(localStorage.getItem('qzStats')||'{"played":0,"perfect":0,"best":0,"lastDay":""}')}catch(e){return {played:0,perfect:0,best:0,lastDay:''}}}
+function paintStats(){const s=readStats();$('bestScore').textContent=s.best+'/5';$('playedCount').textContent=s.played;$('perfectCount').textContent=s.perfect}
+paintStats();
+if(new URLSearchParams(location.search).has('challenge'))$('challengeBanner').classList.add('show');
+function startQuiz(){questions=dailySet();index=0;score=0;results=[];answered=false;$('quizOverlay').classList.add('open');$('resultOverlay').classList.remove('open');renderQuestion();}
+function renderQuestion(){const q=questions[index];answered=false;$('questionCounter').textContent='QUESTION '+(index+1)+' OF '+questions.length;$('scoreLive').textContent=score+' point'+(score===1?'':'s');$('progressFill').style.width=(index/questions.length*100)+'%';$('questionTitle').textContent=q.q;$('options').replaceChildren();$('nextQuestion').disabled=true;$('nextQuestion').textContent=index===questions.length-1?'See my score →':'Next question →';$('quizNotice').textContent='Choose one answer.';q.a.forEach((answer,i)=>{const b=document.createElement('button');b.type='button';b.className='option';b.textContent=String.fromCharCode(65+i)+'. '+answer;b.addEventListener('click',()=>choose(i,b));$('options').appendChild(b)});}
+function choose(choice,button){if(answered)return;answered=true;const q=questions[index];const buttons=[...$('options').querySelectorAll('button')];buttons.forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add('correct')});if(choice===q.correct){score++;$('quizNotice').textContent='Correct! '+q.why}else{button.classList.add('wrong');$('quizNotice').textContent='Not quite. '+q.why}results.push({q:q.q,choice,correct:q.correct});$('scoreLive').textContent=score+' point'+(score===1?'':'s');$('progressFill').style.width=((index+1)/questions.length*100)+'%';$('nextQuestion').disabled=false;}
+function finish(){ $('quizOverlay').classList.remove('open');$('resultOverlay').classList.add('open');$('finalScore').textContent=score+'/5';const msg=score===5?'Perfect score. Brain officially certified.':score>=4?'Sharp! You really know your stuff.':score>=2?'Good run. Run it back tomorrow.':'Warm-up complete. Your comeback arc starts now.';$('resultMessage').textContent=msg;$('resultRank').textContent=score===5?'🏆 PERFECT FIVE':score>=4?'⚡ QUICK THINKER':score>=2?'🧠 GETTING WARM':'🚀 KEEP GOING';const s=readStats();s.played=(s.played||0)+1;s.perfect=(s.perfect||0)+(score===5?1:0);s.best=Math.max(s.best||0,score);s.lastDay=dayKey;try{localStorage.setItem('qzStats',JSON.stringify(s))}catch(e){}paintStats();}
+function shareText(){return 'I scored '+score+'/5 on today’s QZ Daily Challenge! '+(score===5?'Perfect five!':'Can you beat me?')+' Play here: '+location.origin+location.pathname+'?challenge=1';}
+async function share(textValue){try{if(navigator.share){await navigator.share({title:'QZ Daily Challenge',text:textValue,url:location.origin+location.pathname+'?challenge=1'});$('shareNotice').textContent='Challenge shared — your turn to recruit a rival.'}else{await navigator.clipboard.writeText(textValue);$('shareNotice').textContent='Challenge copied! Paste it into WhatsApp, TikTok or your group chat.'}}catch(e){if(e.name!=='AbortError'){$('shareNotice').textContent='Sharing is unavailable here. Copy this link: '+location.origin+location.pathname+'?challenge=1'}}}
+$('startDaily').addEventListener('click',startQuiz);$('startDaily2').addEventListener('click',startQuiz);$('dailyCard').addEventListener('click',e=>{e.preventDefault();startQuiz()});
+$('nextQuestion').addEventListener('click',()=>{if(!answered)return;if(index<questions.length-1){index++;renderQuestion()}else finish()});
+$('quitQuiz').addEventListener('click',()=>{$('quizOverlay').classList.remove('open')});
+$('closeResult').addEventListener('click',()=>{$('resultOverlay').classList.remove('open')});
+$('shareResult').addEventListener('click',()=>share(shareText()));
+$('copyChallenge').addEventListener('click',()=>share('I challenge you to beat my QZ score of '+score+'/5! Take today’s quiz: '+location.origin+location.pathname+'?challenge=1'));
+$('shareSite').addEventListener('click',async()=>{const t='Quick challenge: can you get 5/5? Play QZ Daily Challenge: '+location.origin+location.pathname+'?challenge=1';try{if(navigator.share)await navigator.share({title:'QZ Daily Challenge',text:t,url:location.origin+location.pathname+'?challenge=1'});else{await navigator.clipboard.writeText(t);alert('Challenge link copied. Send it to a friend!')}}catch(e){if(e.name!=='AbortError')alert(t)}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('quizOverlay').classList.remove('open');$('resultOverlay').classList.remove('open')}});
+})();
+</script>
 </body>
-
-
 </html>
