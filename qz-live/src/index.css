@@ -78,6 +78,24 @@ button:disabled {
   border-radius: 99px;
   padding: 9px 12px;
 }
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.solo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #a3ff68;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.solo-link:hover {
+  color: #d8ffb8;
+}
 .live-pill i {
   display: inline-block;
   width: 6px;
@@ -809,4 +827,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
   footer {
     font-size: 8px;
   }
+}
+
+@media (max-width: 420px) {
+  .topbar-actions { gap: 7px; }
+  .solo-link { font-size: 10px; }
+  .live-pill { font-size: 8px; padding: 7px; letter-spacing: .4px; }
 }
