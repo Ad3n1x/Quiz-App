@@ -125,7 +125,7 @@ function App() {
   }, [customQuestions]);
   useEffect(() => {
     const invitePin = new URLSearchParams(window.location.search).get('pin');
-    if (invitePin && /^\\d{6}$/.test(invitePin)) {
+    if (invitePin && /^\d{6}$/.test(invitePin)) {
       setPin(invitePin);
       setView('join');
     }
