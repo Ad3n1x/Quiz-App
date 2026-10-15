@@ -1,0 +1,80 @@
+name: QZ Live CI and Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "qz-live/**"
+      - ".github/workflows/qz-live-deploy.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "qz-live/**"
+      - ".github/workflows/qz-live-deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qz-live-deploy
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Build and verify QZ Live
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            qz-live/package.json
+            qz-live/backend/package.json
+
+      - name: Install frontend dependencies
+        working-directory: qz-live
+        run: npm install
+
+      - name: Build frontend
+        working-directory: qz-live
+        run: npm run build
+
+      - name: Install backend dependencies
+        working-directory: qz-live/backend
+        run: npm install
+
+      - name: Check backend JavaScript syntax
+        working-directory: qz-live/backend
+        run: node --check server.js
+
+  deploy-render:
+    name: Trigger Render deployment
+    needs: verify
+    if: github.event_name != 'pull_request' && secrets.RENDER_API_KEY != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy QZ Live API
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --url "https://api.render.com/v1/services/srv-db8e90hsrm7s73ebbd30/deploys" \
+            --header "Authorization: Bearer ${RENDER_API_KEY}" \
+            --header "Accept: application/json"
+
+      - name: Deploy QZ Live frontend
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --url "https://api.render.com/v1/services/srv-db8eairrjlhs73e2ue40/deploys" \
+            --header "Authorization: Bearer ${RENDER_API_KEY}" \
+            --header "Accept: application/json"
