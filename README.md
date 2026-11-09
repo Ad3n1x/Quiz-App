@@ -7,7 +7,7 @@
 - **QZ website:** https://quiz-app-henna-omega.vercel.app/
 - **Live multiplayer:** https://qz-live-web.onrender.com/
 - **Source code:** https://github.com/Ad3n1x/Quiz-App
-- **Developer portfolio:** https://engnradeniran.com/
+- **Developer portfolio:** https://portfolio-sandy-seven-w0bgdmliak.vercel.app/
 
 ## What you can do
 
@@ -50,4 +50,4 @@ QZ is an independently developed learning and quiz project. Online services and 
 Built by **AD3N1X**.
 
 - GitHub: https://github.com/Ad3n1x
-- Portfolio: https://engnradeniran.com/
+- Portfolio: https://portfolio-sandy-seven-w0bgdmliak.vercel.app/
